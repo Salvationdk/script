@@ -1,0 +1,59 @@
+//脚本作者：暗影
+//更新日期：2014年08月19日
+//本脚本展示了如何在多分辨率下利用多点找色进行文字识别的例子
+Delay 2000
+SetControlBarPos 0.8,1
+Dim intX,intY
+SetScreenScale 480,854,1
+do
+    ShowMessage "当前角度是："&角度识别()
+    Delay 200
+loop
+Function 角度识别()
+    Dim 数字(),信息(),结果
+    //这里需要用到两个数组，数字()数组用来保存0-9每个数字多点特征和数字ID，信息()数组用来保存每个数字多点特征里首点颜色、点阵信息、数字ID信息，便于循环调用
+    结果=""
+    数字(0) = array("FFDD55","-3|1|FFD244,0|7|FFDD55,4|3|FFEE77,8|0|EEFF92,8|7|EEFF92,10|3|EAF895",8)
+    数字(1) = array("F0CE4E","8|0|EEF888,11|2|E7F899,10|7|E9FA99,5|8|FFEE77,0|7|FFDD55,-2|4|EABA41,4|4|B0B0B0",0)
+    数字(2) = array("FFD244","6|7|FFEE6E,12|6|EEFF99,11|0|EEFF92,5|3|FBE566",9)
+    数字(3) = array("F7CA44","0|5|F4C744,4|6|FFDD5C,6|-2|FFEE6E,13|6|D5E388",6)
+    数字(4) = array("F7D244","3|7|FFDD55,7|2|E6DA6C,11|7|EEFF92,13|1|EEFF99",3)
+    数字(5) = array("FCCF43","1|6|FFDD4A,5|7|FEE366,7|1|FFEE77,13|1|EEFF99,13|6|EEFF99",5)
+    数字(6) = array("FFDD5C","-4|7|FFD244,0|7|FFDD5C,9|7|EEFF99,4|3|F1E37B",4)
+    数字(7) = array("FBCE44","0|8|FCCF44,1|2|FDDB48,12|7|EEFF99,12|1|E4F391",2)'
+    数字(8) = array("FBCA44","4|2|FFDD5C,7|3|FAE977,13|5|EEFF99,13|-2|EEFF99",7)
+    数字(9) = array("FBCD44","0|7|FFD244,7|4|FFEE77,12|4|EEFF99,12|0|EEFF99",1)
+    数字(10) = array("E3C963","0|2|E3C963,0|4|E3C963,0|7|E3C963","-")
+    //数字查找顺序需要多次测试，才能得出准确的不会误判的排序，比如数字8里也包含数字3的点阵，如果先找3再找8就会将8误识别为3了
+    KeepCapture
+    //因为角度有可能是2-3位数，因此要查找3个数字位置，每个位置查找11次（0-9数字和负号），并将结果拼接，因为是在同一个画面中反复查找，为了提高速度，需要调用KeepCapture
+    For i=0 to 10
+        信息=数字(i)
+        FindMultiColor 77,61,97,74,信息(0),信息(1),0,0.9,intX,intY
+        If intX >-1 then
+            结果=结果&信息(2)
+            Exit for
+        End if
+    next
+    For i=0 to 10
+        信息=数字(i)
+        FindMultiColor 77,75,96,90,信息(0),信息(1),0,0.9,intX,intY
+        If intX >-1 then
+            结果=结果&信息(2)
+            Exit for
+        End if
+    next
+    For i=0 to 10
+        信息=数字(i)
+        FindMultiColor 77,91,97,104,信息(0),信息(1),0,0.9,intX,intY
+        If intX >-1 then
+            结果=结果&信息(2)
+            Exit for
+        End if
+    next
+    ReleaseCapture
+    角度识别=结果
+End Function
+
+
+

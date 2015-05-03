@@ -1,0 +1,28 @@
+Dim intX, intY
+FindPic 729, 1383, 765, 1442, "Attachment:44.png", "000000" ,0, 0.6, intX, intY
+If intX > -1 then
+    TracePrint "1 找到啦，坐标是"&intX&","&intY
+Else
+    TracePrint "1 没找到"
+End If
+
+FindPic 761, 1383, 797, 1442, "Attachment:44.png", "000000" ,0, 0.5, intX, intY
+If intX > -1 then
+    TracePrint "2 找到啦，坐标是"&intX&","&intY
+Else
+    TracePrint "2 没找到"
+End If
+
+FindPic 790, 1383, 832, 1442, "Attachment:44.png", "000000" ,0, 0.5, intX, intY
+If intX > -1 then
+    TracePrint "3 找到啦，坐标是"&intX&","&intY
+Else
+    TracePrint "3 没找到"
+End If
+
+FindPic 821, 1383, 862, 1442, "Attachment:44.png", "000000" ,0, 0.5, intX, intY
+If intX > -1 then
+    TracePrint "4 找到啦，坐标是"&intX&","&intY
+Else
+    TracePrint "4 没找到"
+End If

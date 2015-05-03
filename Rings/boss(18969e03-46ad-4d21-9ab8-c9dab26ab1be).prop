@@ -1,0 +1,17 @@
+{
+   "BestResolution" : {
+      "X" : 0,
+      "Y" : 0
+   },
+   "ChangeFileList" : 11111,
+   "Description" : "",
+   "FileVersion" : {
+      ".atc" : 1,
+      ".mq" : 1,
+      ".prop" : 1,
+      ".rtd" : 1,
+      ".ui" : 1
+   },
+   "Name" : "boss",
+   "id" : "18969e03-46ad-4d21-9ab8-c9dab26ab1be"
+}

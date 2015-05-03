@@ -1,0 +1,17 @@
+{
+   "BestResolution" : {
+      "X" : 0,
+      "Y" : 0
+   },
+   "ChangeFileList" : 11111,
+   "Description" : "",
+   "FileVersion" : {
+      ".atc" : 1,
+      ".mq" : 1,
+      ".prop" : 1,
+      ".rtd" : 1,
+      ".ui" : 1
+   },
+   "Name" : "RivalsClash",
+   "id" : "97cb9f00-8c64-4156-a605-af8e8515b625"
+}

@@ -1,0 +1,48 @@
+Dim intX, intY
+If CmpColorEx("79|64|EFEFEF,313|46|FFEFFF,367|29|FFEFFF,329|96|FFEFFF,500|33|FFF3FF,587|29|FFEFFF,640|29|FFF3FF,677|29|FFEFFF,722|29|FFF3FF,1000|51|EFEFEF",0.9)=1 Then               
+        Tap 1000, 50
+        Do Until CmpColorEx("61|50|EFEFEF,366|29|FFF3FF,438|29|FFF3FF,457|81|FFEFFF,477|29|FFEFFF,520|60|FFEFFF,610|38|FFEFFF,650|31|FFF3FF,723|83|FFEFFF,994|50|E6EBE6",0.9)=1 Or CmpColorEx("65|57|EFEFEF,178|27|FFF3FF,261|29|FFEFFF,419|51|FFEFFF,634|27|FFF3FF,873|28|FFEFFF,918|44|FFEFFF,688|85|FFF3FF",0.9)=1 
+                //冠军之路 提醒
+            If CmpColorEx("514|1630|FFEFFF,532|1631|FFF3FF,512|1661|FFF3FF,531|1661|FFEFFF,545|1629|FEEEFE,545|1662|FFEFFF,563|1629|FFEFFF,564|1662|FFEFFF,552|1646|FFEFFF,539|1723|FFFFFF",0.9)=1 Then 
+                Tap 537, 1648  
+            End If                      
+            If CmpColorEx("328|37|FFF3FF,327|71|FFEFFF,348|69|FFF3FF,437|33|FFEFFF,521|32|FFEFFF,576|68|FFEFFF,628|33|FFF3FF,650|57|FFF3FF,708|29|FFF3FF,730|78|FFEFFF",1.0)=1 Then        
+                //菜单界面 出现侧边栏 点击Train
+                If CmpColorEx("885|1462|FFFFFF,910|1448|FFFFFF,945|1412|FFFFFF,972|1442|F7FBF7,934|1496|FFFFFF,980|1479|FFFFFF,935|1586|FFEFFF,879|1569|FFEFFF,984|1591|FFF3FF,867|1490|FFFFFF",1.0)=1  Then 
+                    Tap 1060, 1506
+                    Delay 1000                     
+                End If                
+            End If
+            Tap 369,680
+            Delay 3000
+        Loop
+        Delay 2000    
+        
+        //循环点击 直到出现train card界面！
+         Do Until CmpColorEx("154|248|CECACE,153|298|CECECE,928|247|CECECE,927|299|CECECE,75|617|FFEFFF,49|647|FFEFFF,696|610|FFEFFF,885|612|FFEFFF,945|611|FFEFFF,1011|670|FFEFFF,73|56|EFEFEF,331|28|FFEFFF,395|29|FFEFFF,476|28|FFEFFF,648|30|FFEFFF,723|83|FFEFFF,741|82|FFEFFF,418|83|FFF3FF,400|83|FFF3FF,999|41|EFEFEF",0.9)=1 
+            Tap 570, 375
+            Delay 2000
+         Loop
+        Delay 1000
+        
+        // 循环一直到整个列表最底下
+        Do Until CmpColorEx("56|1707|213942,21|1707|193542,995|1707|3A6D84,1058|1707|3A6D8C,25|1723|193142,96|1723|21394A,1024|1723|3A698C,1052|1723|3A698C",0.9)=1                  
+            Dim start = 750
+            TouchDown 25,1700, 1
+            TouchMove 25, 10, 1,1000
+            Delay 200
+            TouchUp 1   
+            Do Until start >= 1918 Or FindPic(29, start, 70, 1918, "Attachment:ra.png|Attachment:un.png|Attachment:co.png","000000",0, 0.8, intX, intY) = -1
+                Delay 100
+                Dim check = intY + 157
+                If check >= 1920 Or CmpColor(173, check,"000000",1.0) = -1
+                    Tap intX, intY
+                End if
+                start = intY + 250
+                Delay 100
+            Loop          
+            Delay 200
+        Loop
+        Delay 500
+        Tap 548, 1840               
+    End If

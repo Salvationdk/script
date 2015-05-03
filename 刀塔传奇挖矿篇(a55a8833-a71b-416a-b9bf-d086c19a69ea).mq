@@ -1,0 +1,401 @@
+/////////////////////////////////////////////////////////////////////////////
+'功能描述：在聊天界面启动脚本，脚本会在公会频道与私聊频道之间不停切换，一旦遇到新发布的矿区信息，则会判断类别并点开，开始占矿操作，无聊操作是否占领成功，都讲报警。
+'支持9：16分辨率：480*854、540*960、720*1280、1080*1920
+'本作多点找色特征均在720*1280分辨率下获取进行缩放比例计算
+'从零学起之安卓篇《如何在安卓模拟器中进行多分辨率开发调试》
+'http://bbs.anjian.com/thread-537192-1-1.html
+/////////////////////////////////////////////////////////////////////////////
+//脚本作者：荆棘
+//更新日期：2014年08月21日
+/////////////////////////////////////////////////////////////////////////////
+Randomize
+Dim IntX,IntY
+Dim win_x,win_y
+win_x = GetScreenX()
+win_y = GetScreenY()
+TracePrint "当前分辨率：" & win_x & "*" & win_y
+'设置浮窗移动到中间
+SetControlBarPos 0.5
+/////////////////////////////////////////////////////////////////////////////
+Dim 钻石(),金矿(),药水()
+Dim 聊天界面(),公会选项(),私聊选项()
+Dim 派驻箭号(),两矿标识(),两矿空缺(),洞穴返回(),开采状态(),英雄选择(),英雄空闲()
+Dim 信息特征(),确认按钮(),英雄分类()
+/////////////////////////////////////////////////////////////////////////////
+'比例计算
+Dim win_w,win_h
+win_w=win_x/720
+win_h=win_y/1280
+TracePrint "屏幕比例：" & win_w & ":" & win_h
+If Abs(win_w-win_h) < 0.01 Then'比例偏差小于0.01
+    TracePrint "720*1280比例"
+    钻石=比例换算(Array(400,300,470,370,"FFEAA1","12|0|FFF7D7,-7|-13|C16C25,-6|14|C06C24"))
+    金矿=比例换算(Array(400,300,470,370,"0F7CAE","5|36|0E7BAF,12|29|148FC8,18|17|1289C2,-18|17|0A6C98"))
+    药水=比例换算(Array(400,300,470,370,"5D9703","9|6|6AAC05,17|12|6CAC06,2|35|5B9203,-15|25|4F8201,-14|17|558D01,-11|8|A1FFC3"))
+    聊天界面=比例换算(Array(348,910,"60CFF5","342|-110|0D1E31,342|-50|0D1E31,232|-310|FFFFFF,317|-895|0B1C2F"))
+    公会选项=比例换算(Array(660,300,"7996B3","0|130|7996B3,-20|70|6A86A0,0|230|344C67"))
+    私聊选项=比例换算(Array(660,550,"7996B3","0|90|7996B3,-20|50|6A86A0,-80|180|FFFFFF,-75|225|2F4762"))
+    派驻箭号=比例换算(Array(260,150,440,950,"FFF523","15|0|FFF647,11|-13|FFF438,11|12|FFF530,10|1|FFF640",80))
+    两矿标识=比例换算(Array(282,515,"2BD5FF","0|2|14D0FF,2|1|32D7FF,14|1|77E4FF"))
+    两矿空缺=比例换算(Array(360,723,"19E2A1","1|0|1BE3A1,2|0|1DE4A3"))
+    洞穴返回=比例换算(Array(680,90,"63D0F5","0|20|6BD3F5,-20|240|435D7F,-20|860|476584,-50|1090|4F7091"))
+    开采状态=比例换算(Array(565,315,615,360,"B2D0E3","7|0|BEDFF4,18|0|BCDCF1,13|0|B1CFE2,7|-6|B4D4E8,7|6|B3D2E7"))
+    英雄选择=比例换算(Array(675,100,"57CBF3","0|20|64D1F4,-565|0|96AAB9"))
+    英雄空闲=比例换算(Array(105,950,"747D86"))
+    信息特征=比例换算(Array(470,60))
+    确认按钮=比例换算(Array(76,1135))
+    英雄分类=比例换算(Array(640,1130,95))
+End If
+/////////////////////////////////////////////////////////////////////////////
+//判断信息是否已赋值，如未赋值说明以上分辨率判断均不可用。
+If IsNumeric(钻石(0))=False Then
+    TracePrint "暂不支持当前" & win_x & "*" & win_y & "分辨率，请联系作者咨询！"
+    ShowMessage "暂不支持当前" & win_x & "*" & win_y & "分辨率，请联系作者咨询！"
+    Delay 1000
+    EndScript
+End If
+/////////////////////////////////////////////////////////////////////////////
+//UI设置获取
+Dim val_ys,val_jk
+val_ys=ReadUIConfig("药水",false)
+val_jk=ReadUIConfig("金矿",false)
+/////////////////////////////////////////////////////////////////////////////
+//调试区
+//KeepCapture
+//TracePrint 判断(两矿空缺)
+//EndScript
+/////////////////////////////////////////////////////////////////////////////
+'主线循环
+Dim 公会信息,私聊信息,临时信息,状态
+公会信息=""
+私聊信息=""
+临时信息=""
+Do
+    KeepCapture
+    If 判断(聊天界面)=True Then
+        '页面切换
+        If 判断(私聊选项)=False Then
+            点击 私聊选项
+            Delay 1000
+            KeepCapture
+            If 私聊信息="" Then 私聊信息=记录当页信息()
+            状态=1
+        Else
+            点击 公会选项
+            Delay 1000
+            KeepCapture
+            If 公会信息="" Then 公会信息=记录当页信息()
+            状态=0
+        End If
+        '信息获取判断
+        临时信息=记录当页信息()
+        If 状态=0 and 临时信息<>公会信息 or 状态=1 and 临时信息<>私聊信息 Then
+            '5秒内找不到钻石图标，则
+            If 判断点击延时消失(钻石,5)=False Then
+                If val_ys=True Then
+                    '1秒内判断是否是 药水 图标，是则点，直到消失离开
+                    判断点击延时消失 药水,1
+                End If
+                If val_jk=True Then
+                    '1秒内判断是否是 金矿 图标，是则点，直到消失离开
+                    判断点击延时消失 金矿,1
+                End If
+            End If
+        End If
+        '重置信息记录
+        If 状态=0 Then
+            公会信息=临时信息
+        Else
+            私聊信息=临时信息
+        End If
+    ElseIf 判断(洞穴返回)=True Then
+        TracePrint "洞穴场景"
+        '在洞穴场景中，判断三人矿时的箭号是否存在，存在则点击
+        If 判断(派驻箭号)=True Then
+            TracePrint "点击派驻"
+            Tap IntX-派驻箭号(6),IntY
+        ElseIf 判断(两矿标识)=True Then'如果是两人矿，则单独判断右边是否空缺
+            判断点击 两矿空缺
+        Else
+            TracePrint "洞穴返回"
+            '否则以上条件都不成立，则点左上角返回按钮
+            点击 洞穴返回
+        End If
+    ElseIf 判断(英雄选择)=True Then
+        '搜索英雄列表中空闲英雄，点一个确定
+        If 搜索空闲英雄(开采状态)=True Then
+            TracePrint "确认英雄，开始报警"
+        Else
+            TracePrint "搜索失败"
+        End If
+        '不管英雄选择成功与否都报警
+        音乐报警
+    Else
+        TracePrint "请打开聊天框再启动脚本。"
+        ShowMessage "请打开聊天框再启动脚本。"
+    End If
+    Delay 1000
+Loop
+Sub 音乐报警()
+    '死循环播放一个简短的报警音乐，时隔7秒，重新播放。
+    Do
+        PlaySound "Attachment:Common.mp3"
+        For 7
+            Delay 1000
+        Next
+    Loop
+End Sub
+Function 搜索空闲英雄(数组)
+    搜索空闲英雄=False
+    Dim i
+    For i=0 To 3
+        搜索当页英雄 数组
+        '判断是否已经选好英雄
+        KeepCapture
+        If CmpColor(英雄空闲(0),英雄空闲(1),英雄空闲(2),0.9)=-1 Then
+            点击 确认按钮
+            搜索空闲英雄=True
+            Exit Function
+        Else
+            Tap 英雄分类(0)-英雄分类(2)*i,英雄分类(1)
+        End If
+        Delay 1000
+    Next
+End Function
+Function 搜索当页英雄(数组)
+    搜索当页英雄=False
+    Dim arr()
+    arr=数组
+    Dim i_x,i_y
+    KeepCapture
+    For i_x=0 To 2
+        For i_y=0 To 4
+            If FindMultiCol(arr(0)-i_x*160,arr(1)+i_y*160,arr(2)-i_x*160,arr(3)+i_y*160,arr(4),arr(5),0.9)=False Then
+                Tap arr(0)-i_x*160,arr(1)+i_y*160
+                Delay 1000
+                搜索当页英雄=True
+                Exit Function
+            End If
+        Next
+    Next
+End Function
+Function 记录当页信息()
+    Dim x,y,str,i
+    x=信息特征(0)
+    y=信息特征(1)
+    str=""
+    For i=0 To 20
+        str=str & GetPixelColor(x,y) & "|"
+    Next
+    记录当页信息=str
+End Function
+/////////////////////////////////////////////////////////////////////////////
+'功能模块（通用型封装模块，基本常用脚本都需要用到的功能）
+Sub 触屏划动(数组特征)
+    'VBS命令教学之《随机函数Rnd的介绍》
+    'http://bbs.anjian.com/thread-404234-1-1.html
+    Dim arr(),n
+    arr=数组特征
+    n=Int(10*Rnd())'给划动操作增加些随机偏值
+    TouchDown arr(0)+n,arr(1)+n,1
+    TouchMove arr(2)+n,arr(3)+n,1
+    Delay 500
+    TouchUp 1
+    Delay 100
+End Sub
+Function 判断(数组特征)
+    判断=False
+    Dim arr()
+    arr=数组特征
+    '因为本作中只用到区域多点找色查找与固定起点多点比色
+    '所以就简单判断下第四个值是否为数字，即可确认是区域多点找色还是固定多点比色
+    If IsNumeric(arr(3))=True Then
+        判断=FindMultiCol(arr(0),arr(1),arr(2),arr(3),arr(4),arr(5),0.9)
+    Else
+        判断=CmpMultiCol(arr(0),arr(1),arr(2),arr(3),0.9)
+    End If
+End Function
+Sub 点击(数组坐标)
+    Dim arr()
+    arr=数组坐标
+    Tap arr(0),arr(1)
+End Sub
+Function 判断延时消失(数组,秒)
+    判断延时消失=False
+    Dim t
+    t=Time()
+    Do
+        Delay 1000
+        KeepCapture
+        If 判断(数组)=False Then
+            判断延时消失=True
+            Exit Do
+        End If
+    Loop Until Time()-t > 秒
+End Function
+Function 判断点击延时消失(数组,秒)
+    判断点击延时消失=False
+    If 判断点击(数组)=True
+        判断点击延时消失=判断延时消失(数组,秒)
+    End If
+End Function
+Function 判断点击(数组特征)
+    判断点击=False
+    If 判断(数组特征)=True Then
+        Tap IntX,IntY
+        判断点击=True
+    End If
+End Function
+Function 比例换算(数组)
+    Dim arr(),arr_bl(),i,n
+    arr=数组
+    arr_bl=Array(win_w,win_h)
+    i=0
+    For Each n In arr
+        If IsNumeric(n)=True Then
+            arr(i)=n*arr_bl(i Mod 2)
+        ElseIf InStr(1,n,"|")>0 Then
+            Dim arr1(),str,arr2()
+            arr1=Split(arr(i),",")
+            str=""
+            For Each n In arr1
+                arr2=Split(n,"|")
+                str=str & arr2(0)*win_w & "|" & arr2(1)*win_h & "|" & arr2(2) & ","
+            Next
+            arr(i)=Left(str,Len(str)-1)
+            Exit For
+        End If
+        i=i+1
+    Next
+    比例换算=arr
+End Function
+/////////////////////////////////////////////////////////////////////////////
+'本脚本相关教程资料（都是重点，想学就把我的教程看完，如不懂可以各大按键群（官方群）里联系我）
+'从零学起之安卓篇《按键精灵安卓版找图找色应用汇总介绍》
+'http://bbs.anjian.com/thread-523396-1-1.html
+'从零学起之基础核心《麻雀虽小五脏俱全》
+'http://bbs.anjian.com/thread-509172-1-1.html
+/////////////////////////////////////////////////////////////////////////////
+'固定模块（通用型封装模块，核心函数功能，每个脚本必用，一般没新需求是不更改的）
+'判断两个16进制值相似度是否到达对应百分比
+Function IsCol(col1,col2,n)
+    IsCol=False
+    Dim r1,g1,b1
+    Dim r2,g2,b2
+    ColorToRGB col1,r1,g1,b1
+    ColorToRGB col2,r2,g2,b2
+    If 1 - (Abs(r1 - r2) + Abs(g1 - g2) + Abs(b1 - b2)) / 255 / 3 >= n Then IsCol=True
+End Function
+'固定坐标单点模糊找色
+Function CmpCol(x,y,col,n)
+    CmpCol=False
+    If x < 0 or y < 0 Then Exit Function
+    Dim temp_col
+    temp_col=GetPixelColor(x,y)
+    If temp_col=col Then
+        CmpCol=True
+    Else
+        CmpCol=IsCol(col,temp_col,n)
+    End If
+End Function
+'固定坐标多点模糊找色
+Function CmpMultiCol(x,y,col,str,n)
+    CmpMultiCol=False
+    IntX=x
+    IntY=y
+    If CmpCol(x,y,col,n)=True Then
+        '第一个点颜色符合，调用MultiColor多点处理模块匹配其余点的颜色是否正确
+        If MultiColor(x,y,str,n)=True Then
+            CmpMultiCol=True
+            Exit Function
+        End If
+    End If
+    '第一个点颜色不符，调用FindMultiColor多点找色模块，对该点再次进行一次小范围多点找色查找
+    CmpMultiCol=FindMultiCol(x-1,y-20,x+1,y+20,col,str,n)
+End Function
+'区域范围多点模糊找色
+Function FindMultiCol(x1,y1,x2,y2,col,str,n)
+    FindMultiCol=False
+    Dim x,y
+    Do
+        FindColor x1,y1,x2,y2,col,0,n,intX, intY
+        If intX >= 0 Then
+            If MultiColor(intX,intY,str,n)=True Then
+                FindMultiCol=True
+                Exit Do
+            Else
+                x=IntX
+                y=IntY
+                Do Until x > x2
+                    FindColor x,y,x2,y,col,0,n,intX,intY
+                    If intX >= 0 Then
+                        If MultiColor(intX,intY,str,n)=True Then
+                            FindMultiCol=True
+                            Exit Function
+                        Else
+                            x=IntX+1
+                        End If
+                    Else
+                        Exit Do
+                    End If
+                Loop
+                y1=y+1
+            End If
+        Else
+            Exit Do
+        End If
+    Loop Until y1 > y2
+End Function
+'多点偏移点阵匹配
+Function MultiColor(x,y,str,n)
+    MultiColor=False
+    Dim arr1,i,arr2()
+    arr1=Split(str,",")
+    For Each i In arr1
+        arr2=Split(i,"|")
+        If CmpCol(x+Int(arr2(0)),y+Int(arr2(1)),arr2(2),n)=False Then
+            'FindColor x+Int(arr2(0))-3, y+Int(arr2(1))-3, x+Int(arr2(0))+3, y+Int(arr2(1))+3, arr2(2), 0, n, intX, intY
+            'If IntX=-1 Then 
+            Exit Function
+        End If
+    Next
+    MultiColor=True
+End Function
+//////////////////////////////////////////////////////////////////////////////////////////
+'自定义固定模块组合应用，以下部分大家请理解函数模块功能作用后自行组合使用。（请理解后调用，以免出错都不懂原因）
+Function Cm(x,y,col,str)
+    Cm=CmEx(x,y,col,str,0.9)
+End Function
+Function CmEx(x,y,col,str,n)
+    KeepCapture
+    CmEx=CmpMultiCol(x,y,col,str,n)
+    ReleaseCapture
+End Function
+Function Fm(x1,y1,x2,y2,col,str)
+    Fm=FmEx(x1,y1,x2,y2,col,str,0.9)
+End Function
+Function FmEx(x1,y1,x2,y2,col,str,n)
+    KeepCapture
+    FmEx=FindMultiCol(x1,y1,x2,y2,col,str,n)
+    ReleaseCapture
+End Function
+Function Fc(x1,y1,x2,y2,col)
+    Fc=FcEx(x1,y1,x2,y2,col,0.9)
+End Function
+Function FcEx(x1,y1,x2,y2,col,n)
+    FcEx=False
+    FindColor x1,y1,x2,y2,col,0,n,intX,intY
+    If intX >= 0 Then FcEx=True
+End Function
+//////////////////////////////////////////////////////////////////////////////////////////
+'作业
+//1、Function 比例换算(数组)，原理描述完整写出来。
+//2、Function 判断(数组特征) 与 Sub 点击(数组坐标)，各列出至少一个优点描述。
+//3、Sub 点击技能()，为什么里面代码这么写，列出至少两点。
+//4、Function CmpMultiCol(x,y,col,str,n)，固定多点找色原理描述。
+//5、Function FindMultiCol(x1,y1,x2,y2,col,str,n)，区域多点找色原理描述。
+//6、Cm\CmEx\Fm\FmEx\Fc，这几个函数模块用意描述出来。
+//////////////////////////////////////////////////////////////////////////////////////////
+
+//脚本作者：荆棘
+//更新日期：2012年08月21日

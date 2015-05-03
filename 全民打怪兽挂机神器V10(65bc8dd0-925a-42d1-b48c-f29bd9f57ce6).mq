@@ -1,0 +1,450 @@
+/////////////////////////////////////////////////////////////////////////////
+'功能描述：在副本开始画面，启动脚本，则会自动开始单刷副本操作。
+'支持9：16分辨率：480*854、540*960、720*1280、1080*1920
+'支持3： 5分辨率：480*800、800*1280、1080*1800
+'支持模拟器分辨率：800*600
+'本作多点找色特征均在720*1280分辨率下获取进行缩放比例计算
+'从零学起之安卓篇《如何在安卓模拟器中进行多分辨率开发调试》
+'http://bbs.anjian.com/thread-537192-1-1.html
+/////////////////////////////////////////////////////////////////////////////
+'从零学起之安卓实战篇《全民打怪兽循环冒险》
+'http://bbs.anjian.com/thread-526643-1-1.html
+/////////////////////////////////////////////////////////////////////////////
+//脚本作者：荆棘
+//更新日期：2014年08月21日
+/////////////////////////////////////////////////////////////////////////////
+'定义一些常用变量：IntX IntY 找色模块返回值用，win_x win_y 屏幕分辨率用，win_w win_h 分辨率比例用
+Dim IntX,IntY
+Dim win_x,win_y,win_w,win_h
+win_x = GetScreenX()
+win_y = GetScreenY()
+'比例计算
+win_w=win_x/720
+win_h=win_y/1280
+TracePrint "屏幕比例：" & win_w & ":" & win_h
+'设置浮窗移动到中间
+SetControlBarPos 0.5
+/////////////////////////////////////////////////////////////////////////////
+'定义一些常用变量，加刮号是为了定义变量类型为数组类型
+Dim 开始按钮(),进入按钮(),奖励宝箱(),确认按钮(),极限确认按钮(),再玩一次(),已自动战斗(),战斗技能(),未自动战斗(),超越好友(),自动施放(),已自动施放战斗(),确认钥匙()
+'只支持同等比例720*1280、1080*1920、540*960，非同比例则不支持，有心学习的同学请自行理解完整实例后更新吧，去吧少年少女们！
+'比例换算：把全部特征中的坐标参数进行比例换算，同比例缩放后带入以下脚本运行
+If Abs(win_w-win_h) < 0.01 Then'比例偏差小于0.01
+    开始按钮=比例换算(Array(98,894,"080808","-8|26|BDAE8C,-5|12|EEDAC5,56|4|FFFFFF"))
+    进入按钮=比例换算(Array(80,820,"4A9ACE","3|15|002452,16|64|082452,6|74|082452,12|100|082452,-15|100|52AAD6"))
+    奖励宝箱=比例换算(Array(230,640,"00243A","-55|-90|00AEF7,120|-90|00FFFF,120|90|00D2F7,-50|85|08B2FF"))
+    确认按钮=比例换算(Array(62,588,"002452","-2|22|4A9ECE,-12|92|4AA6CE,18|112|4A9ACE"))
+    极限确认按钮=比例换算(Array(120,585,"002452","-2|22|4A9ECE,-12|92|4AA6CE,18|112|4A9ACE"))
+    再玩一次=比例换算(Array(74,237,"08285A","14|48|5AB6DE,-14|48|52B2DE,5|107|4A9ECE,11|133|4A9ECE"))
+    已自动战斗=比例换算(Array(102,51,"FFFFFF","0|23|F7FFF7,-24|31|003519,-44|53|FFFFFF,6|52|FFFFFF,18|29|29AA94"))
+    战斗技能=比例换算(Array(85,1190,0,140))
+    未自动战斗=比例换算(Array(73,53,"FFFFFF","-15|51|FFFFFF,35|50|FFFFFF,2|-18|081829,-8|-18|081821,2|72|081829"))
+    超越好友=比例换算(Array(630,975,"4A9ECE","-1|20|08245A,-2|40|4A9ECE,-20|19|52BADE,14|20|4A9ECE"))
+    自动施放=比例换算(Array(530,1175,540,1185,"08AAFF"))
+    已自动施放战斗=比例换算(Array(64,53,"FFFFFF","-5|51|FFFFFF,44|50|FFFFFF,56|22|A455BD,16|72|310C29,11|-18|290421"))
+    确认钥匙=比例换算(Array(195,749,"00245A","6|-52|4A9ECE,-4|23|4AA6CE,19|99|4A9ACE,5|149|4A9ACE"))
+End If
+/////////////////////////////////////////////////////////////////////////////'比例不相等则再次进行判断
+If IsNumeric(开始按钮(0))=False Then'非720*1280比例，则开始重新计算下一个比例
+    '比例计算
+    win_w=win_x/1080
+    win_h=win_y/1800
+    'TracePrint win_w & "-" & win_h & "=" & Abs(win_w-win_h)
+    If Abs(win_w-win_h) < 0.1 Then'比例偏差小于0.1
+        开始按钮=比例换算(Array(146,1280,"000008","81|2|FFFFFF,57|45|FFFFFF,-6|40|BDAE8C"))
+        进入按钮=比例换算(Array(125,1190,"082852","0|40|4A9ECE,20|76|082852,20|91|08245A,11|131|082452,-13|130|4A9ECE"))
+        奖励宝箱=比例换算(Array(342,898,"082442","-82|-128|00AEF7,188|-133|08FFFF,188|137|00D3F7,-82|132|00AEF7"))
+        确认按钮=比例换算(Array(92,823,"082852","0|37|4A9ECE,19|138|08245A,-12|137|4A9ED6,28|151|4A9ACE"))
+        极限确认按钮=比例换算(Array(178,823,"082852","0|37|4A9ECE,19|138|08245A,-12|137|4A9ED6,28|151|4A9ACE"))
+        再玩一次=比例换算(Array(111,296,"082852","20|75|52A6D6,-1|104|4A9ECE,24|129|4A9ECE,7|170|08245A"))
+        已自动战斗=比例换算(Array(95,80,"FFFFFF","-7|76|FFFFFF,67|75|FFFFFF,24|10|104529,21|45|083821,21|86|084129"))
+        战斗技能=比例换算(Array(130,1670,0,215))
+        未自动战斗=比例换算(Array(95,80,"FFFFFF","-7|76|FFFFFF,68|74|FFFFFF,0|-30|081821,13|98|001429,-65|35|216D9C"))
+        超越好友=比例换算(Array(943,1432,"082852","2|-32|4A9ECE,24|0|4A9ECE,0|29|4A9ECE"))
+        自动施放=比例换算(Array(797,1707,807,1717,"00AAFF"))
+        已自动施放战斗=比例换算(Array(64,53,"FFFFFF","-5|51|FFFFFF,44|50|FFFFFF,56|22|A455BD,16|72|310C29,11|-18|290421"))
+        确认钥匙=比例换算(Array(290,1065,"00245A","10|-80|4A9ECE,0|35|4A9ECE,25|145|4A9ACE,10|225|4A9ECE"))
+    End If
+End If
+/////////////////////////////////////////////////////////////////////////////
+If win_x=800 and win_y=600 Then'模拟器800*600
+    TracePrint "800*600"
+    win_w=win_x/800
+    win_h=win_y/600
+    开始按钮=Array(588,425,"FFFFFF","22|8|BBB3A3,127|50|9D947C")
+    进入按钮=Array(530,460,"052657","-30|-11|4A9DCE,95|9|4DA0D1")
+    奖励宝箱=Array(400,375,"03263F","-80|-22|03D7FF,80|-22|04CAFF,0|43|06DCFD")
+    确认按钮=Array(360,504,"052657","-26|-21|4A9DCE,79|-16|4A9DCE")
+    极限确认按钮=Array(360,460,"052657","-26|-21|4A9DCE,79|-16|4A9DCE")
+    再玩一次=Array(80,490,"4A9DCE","65|-10|4A9DCE,75|10|4CA5D0,140|0|1D3E5F")
+    已自动战斗=Array(40,502,"FFFFFF","53|-28|1A654C,48|-8|063120,-10|-8|062716")
+    战斗技能=Array(735,485,110,0)
+    未自动战斗=Array(40,502,"FFFFFF","52|-8|061624,27|17|103A5B,-12|-12|0A1A2B")
+    超越好友=Array()
+    自动施放=Array(750,155,770,165,"02A7FF")
+    已自动施放战斗=Array(40,502,"FFFFFF","20|-45|9754B0,57|-16|310829,-12|-8|26051D,29|16|361549")
+    确认钥匙=Array(472,385,"052657","-26|-21|4A9DCE,79|-16|4A9DCE")
+End If
+/////////////////////////////////////////////////////////////////////////////
+'最后比例还是不相等则
+If IsNumeric(开始按钮(0))=False Then
+    ShowMessage "您的手机暂不支持，请访问bbs.jdyxb.com提交！"
+    Delay 2000
+    EndScript
+End If
+/////////////////////////////////////////////////////////////////////////////
+'获取UI界面设置参数
+Dim ui_str,val_jn,val_key,txt_js,txt_jnjg,val_ysyw
+ui_str="V10:"
+'购买自动施放
+val_jn=ReadUIConfig("技能",false)
+If val_jn=True Then
+    ui_str=ui_str & "已开[自动技能]"
+Else
+    ui_str=ui_str & "未开[自动技能]"
+End If
+'技能间隔
+txt_jnjg=Int(ReadUIConfig("技能间隔",100))
+If txt_jnjg < 100 Then txt_jnjg=100
+If txt_jnjg > 5000 Then txt_jnjg=5000
+ui_str=ui_str & "，技能间隔[" & txt_jnjg & "]毫秒"
+'结束时间
+txt_js=Int(ReadUIConfig("结束",0))
+If txt_js="" or txt_js=null Then txt_js=0
+If txt_js<>0 Then
+    ui_str=ui_str & "，定时" & txt_js & "分钟"
+    '分钟转换秒钟
+    txt_js=txt_js*60
+    Dim txt_time
+    txt_time=Time()
+End If
+ShowMessage ui_str
+Delay 2000
+'钥匙用完
+val_ysyw=ReadUIConfig("钥匙用完",false)
+If val_ysyw=True Then
+    ui_str="已开钥匙用完[返回桌面]"
+Else
+    ui_str="未开钥匙用完[返回桌面]"
+End If
+ShowMessage ui_str
+Delay 3000
+/////////////////////////////////////////////////////////////////////////////
+'调试区
+//TracePrint Join(极限确认按钮,"|")
+//KeepCapture
+//TracePrint 判断(开始按钮)
+//TracePrint 判断(进入按钮)
+//TracePrint 判断(奖励宝箱)
+//TracePrint 判断(极限确认按钮)
+//TracePrint 判断(再玩一次)
+//TracePrint 判断细节(已自动战斗,0.95)
+//TracePrint 判断细节(未自动战斗,0.95)
+//TracePrint 判断(超越好友)
+//TracePrint 判断(自动施放)
+//TracePrint 判断(确认钥匙)
+//TracePrint IntX&"|"&IntY
+//ReleaseCapture
+//EndScript
+/////////////////////////////////////////////////////////////////////////////
+'主线循环
+Do
+    KeepCapture
+    If 判断(开始按钮)=True Then '判断开始冒险
+        TracePrint "开始按钮"
+        Call 挂机计时(txt_js,txt_time)
+        'Call 点击自动施放()
+        Call 点击(开始按钮)
+    ElseIf 判断(确认钥匙)=True Then
+        TracePrint "确认钥匙"
+        Call 返回手机主页()
+    ElseIf 判断点击(进入按钮)=True Then
+        TracePrint "进入按钮"
+    ElseIf 判断点击(奖励宝箱)=True Then '奖励判断
+        TracePrint "奖励宝箱"
+    ElseIf 判断点击(确认按钮)=True Then
+        TracePrint "确认按钮"
+    ElseIf 判断点击(极限确认按钮)=True Then
+        TracePrint "极限确认按钮"
+    ElseIf 判断点击(再玩一次)=True Then
+        TracePrint "再玩一次"
+    ElseIf 判断细节(已自动战斗,0.95)=True Then '战斗判断
+        TracePrint "已自动战斗"
+        If val_jn=True Then Call 点击战斗技能()
+    ElseIf 判断(已自动施放战斗)=True Then
+        TracePrint "已自动施放战斗"
+    ElseIf 判断细节点击(未自动战斗,0.95)=True Then
+        TracePrint "未自动战斗"
+    ElseIf 判断点击(超越好友)=True Then
+        TracePrint "超越好友"
+    Else
+        TracePrint "未知画面"
+    End If
+    Delay 1000 '循环中适当的延时给予CPU响应时间，使脚本更为流畅
+Loop
+/////////////////////////////////////////////////////////////////////////////
+'固定模块（通用型封装模块，基本常用脚本都需要用到的功能）
+Sub 挂机计时(开始时间,挂机时间)
+    If 判断结束(开始时间,挂机时间)=True Then
+        TracePrint "时间到"
+        Call 返回手机主页()
+    End If
+End Sub
+Sub 点击自动施放()
+    If val_jn=False Then Exit Function
+    Dim ret
+    Do
+        ret=判断(自动施放)
+        If val_jn=True and ret=False Then
+            Call 点击(自动施放)
+            Delay 1000
+        Else
+            Exit Do
+        End If
+        KeepCapture
+    Loop
+End Sub
+Sub 返回手机主页()
+    Do
+        ShowMessage "挂机时间到！停止脚本！"
+        KeyPress "Home"
+        Delay 1000
+        KeepCapture
+    Loop While 判断(开始按钮)=True
+    EndScript
+End Sub
+Function 判断结束(s,t)
+    判断结束=False
+    If s=0 Then Exit Function
+    If Time()-s > t Then 判断结束=True
+End Function
+Function 点击战斗技能()
+    Dim i
+    For i=0 To 3'四个技能坐标偏移，全部点过去
+        Tap 战斗技能(0)-i*战斗技能(2),战斗技能(1)-i*战斗技能(3)
+        Delay txt_jnjg
+    Next
+End Function
+/////////////////////////////////////////////////////////////////////////////
+'固定模块（通用型封装模块，核心函数功能，每个脚本必用，一般没新需求是不更改的）
+Function 判断(数组)
+    判断=False
+    Dim arr()
+    arr=数组
+    If IsNumeric(arr(3))=True Then'数组特征第四个值为数字则
+        '因本作中带范围坐标用到两种方式，所以以下做个判断区别
+        '当前数组特征包含“|”则为区域多点找色
+        If InStr(0,Join(arr,","),"|")>0 Then
+            判断=FindMultiCol(arr(0),arr(1),arr(2),arr(3),arr(4),arr(5),0.9)
+        Else'否则为范围查找单色
+            判断=Fc(arr(0),arr(1),arr(2),arr(3),arr(4))
+        End If
+    ElseIf IsNumeric(arr(1))=True Then'数组特征第二个值为数字则为固定多点比色
+        判断=CmpMultiCol(arr(0),arr(1),arr(2),arr(3),0.9)
+        'Else
+        'TracePrint "数组异常：" & Join(arr,"|")
+    End If
+End Function
+Sub 点击(数组坐标)
+    Dim arr()
+    arr=数组坐标
+    Tap arr(0), arr(1)
+End Sub
+Function 判断点击(数组)
+    判断点击=False
+    If 判断(数组)=True Then
+        Tap IntX,IntY
+        判断点击=True
+    End If
+End Function
+Function 判断细节(数组,相似度)
+    判断细节=False
+    Dim arr()
+    arr=数组
+    If IsNumeric(arr(3))=True Then
+        If InStr(0,Join(arr,","),"|")>0 Then
+            判断细节=FindMultiCol(arr(0),arr(1),arr(2),arr(3),arr(4),arr(5),相似度)
+        Else
+            判断细节=FcEx(arr(0),arr(1),arr(2),arr(3),arr(4),相似度)
+        End If
+    ElseIf IsNumeric(arr(1))=True Then
+        判断细节=CmpMultiCol(arr(0),arr(1),arr(2),arr(3),相似度)
+    Else
+        TracePrint "数组异常：" & Join(arr,"|")
+    End If
+End Function
+Function 判断细节点击(数组,相似度)
+    If 判断细节(数组,相似度)=True Then
+        Tap IntX,IntY
+        判断细节点击=True
+    End If
+End Function
+Function 比例换算(数组)
+    If win_w=1 or win_h=1 Then '原比例，无需计算
+        比例换算=数组
+        Exit Function
+    End If
+    Dim arr(),arr_bl(),i,n
+    arr=数组
+    arr_bl=Array(win_w,win_h)
+    i=0
+    Dim arr1(),str,arr2()
+    For Each n In arr
+        If IsNumeric(n)=True Then
+            arr(i)=n*arr_bl(i Mod 2)
+        ElseIf InStr(1,n,"|")>0 Then
+            arr1=Split(arr(i),",")
+            str=""
+            For Each n In arr1
+                arr2=Split(n,"|")
+                str=str & arr2(0)*win_w & "|" & arr2(1)*win_h & "|" & arr2(2) & ","
+            Next
+            arr(i)=Left(str,Len(str)-1)
+            Exit For
+        End If
+        i=i+1
+    Next
+    比例换算=arr
+End Function
+/////////////////////////////////////////////////////////////////////////////
+'本脚本相关教程资料（都是重点，想学就把我的教程看完，如不懂可以各大按键群（官方群）里联系我）
+'从零学起之安卓篇《按键精灵安卓版找图找色应用汇总介绍》
+'http://bbs.anjian.com/thread-523396-1-1.html
+'从零学起之基础核心《麻雀虽小五脏俱全》
+'http://bbs.anjian.com/thread-509172-1-1.html
+/////////////////////////////////////////////////////////////////////////////
+'判断两个16进制值相似度是否到达对应百分比
+Function IsCol(col1,col2,n)
+    IsCol=False
+    Dim r1,g1,b1
+    Dim r2,g2,b2
+    ColorToRGB col1,r1,g1,b1
+    ColorToRGB col2,r2,g2,b2
+    If 1 - (Abs(r1 - r2) + Abs(g1 - g2) + Abs(b1 - b2)) / 255 / 3 >= n Then IsCol=True
+End Function
+'固定坐标单点模糊找色
+Function CmpCol(x,y,col,n)
+    CmpCol=False
+    If x < 0 or y < 0 Then Exit Function
+    Dim temp_col
+    temp_col=GetPixelColor(x,y)
+    If temp_col=col Then
+        CmpCol=True
+    Else
+        CmpCol=IsCol(col,temp_col,n)
+    End If
+End Function
+'固定坐标多点模糊找色
+Function CmpMultiCol(x,y,col,str,n)
+    CmpMultiCol=False
+    IntX=x
+    IntY=y
+    If CmpCol(x,y,col,n)=True Then
+        CmpMultiCol=MultiColor(x,y,str,n)
+    Else
+        CmpMultiCol=FindMultiCol(x-3,y-3,x+3,y-3,col,str,n)
+    End If
+End Function
+'区域范围多点模糊找色
+Function FindMultiCol(x1,y1,x2,y2,col,str,n)
+    FindMultiCol=False
+    Dim x,y
+    Do
+        FindColor x1,y1,x2,y2,col,0,n,intX, intY
+        If intX >= 0 Then
+            If MultiColor(intX,intY,str,n)=True Then
+                FindMultiCol=True
+                Exit Do
+            Else
+                x=IntX
+                y=IntY
+                Do Until x > x2
+                    FindColor x,y,x2,y,col,0,n,intX,intY
+                    If intX >= 0 Then
+                        If MultiColor(intX,intY,str,n)=True Then
+                            FindMultiCol=True
+                            Exit Function
+                        Else
+                            x=IntX+1
+                        End If
+                    Else
+                        Exit Do
+                    End If
+                Loop
+                y1=y+1
+            End If
+        Else
+            Exit Do
+        End If
+    Loop Until y1 > y2
+End Function
+'多点偏移点阵匹配
+Function MultiColor(x,y,str,n)
+    MultiColor=False
+    Dim arr1,i,arr2()
+    arr1=Split(str,",")
+    For Each i In arr1
+        arr2=Split(i,"|")
+        If CmpCol(x+Int(arr2(0)),y+Int(arr2(1)),arr2(2),n)=False Then
+            'FindColor x+Int(arr2(0))-3, y+Int(arr2(1))-3, x+Int(arr2(0))+3, y+Int(arr2(1))+3, arr2(2), 0, n, intX, intY
+            'If IntX=-1 Then 
+            Exit Function
+        End If
+    Next
+    MultiColor=True
+End Function
+//////////////////////////////////////////////////////////////////////////////////////////
+'自定义固定模块组合应用，以下部分大家请理解函数模块功能作用后自行组合使用。（请理解后调用，以免出错都不懂原因）
+Function Cm(x,y,col,str)
+    Cm=CmEx(x,y,col,str,0.9)
+End Function
+Function CmEx(x,y,col,str,n)
+    KeepCapture
+    CmEx=CmpMultiCol(x,y,col,str,n)
+    ReleaseCapture
+End Function
+Function Fm(x1,y1,x2,y2,col,str)
+    Fm=FmEx(x1,y1,x2,y2,col,str,0.9)
+End Function
+Function FmEx(x1,y1,x2,y2,col,str,n)
+    KeepCapture
+    FmEx=FindMultiCol(x1,y1,x2,y2,col,str,n)
+    ReleaseCapture
+End Function
+Function Fc(x1,y1,x2,y2,col)
+    Fc=FcEx(x1,y1,x2,y2,col,0.9)
+End Function
+Function FcEx(x1,y1,x2,y2,col,n)
+    FcEx=False
+    FindColor x1,y1,x2,y2,col,0,n,intX,intY
+    If intX >= 0 Then FcEx=True
+End Function
+//////////////////////////////////////////////////////////////////////////////////////////
+//作业
+//1、Dim 变量 与 Dim 变量()，写出作用与区别。
+//2、Sub子程序与Function函数，写出作用与区别。
+//3、If IsNumeric(开始按钮(0))=False Then，写出作用与原理。
+//4、变量 = 变量 & 字符信息，写出 & 符号功能作用与正行代码的作用。
+//5、写出以下Sub或Function的作用与原理，并说明存在的用意。
+//Function 比例换算(数组)
+//Function 判断(数组)
+//Sub 点击(数组坐标)
+//Function 判断点击(数组)
+//晋级作业
+//1、第二套颜色坐标信息开头，If Abs(win_w-win_h) < 0.1 Then，写出作用。
+//2、完整描述以下Function的作用与原理，并说明存在的用意。
+//IsCol、CmpCol、CmpMultiCol、FindMultiCol、MultiColor
+//3、Cm\CmEx\Fm\FmEx\Fc\FcEx，写出这几个函数模块存在意义。
+//4、KeepCapture与ReleaseCapture的作用。
+//5、调用CmpMultiCol、FindMultiCol时，为什么开头必须加KeepCapture，不加会怎样。
+//脚本作业
+//1、脚本中用到几套颜色坐标信息，分别都支持多少种分辨率一一写出。
+//2、完整描述出脚本主线循环的逻辑思路。
+//3、Sub 点击自动施放()，写出作用与原理。
+//4、Sub 返回手机主页()，写出作用与原理。
+//5、Function 判断结束(s,t)，写出作用与原理。
+//6、Function 点击战斗技能()，写出作用与原理，以及为什么加延时，不加会怎样。
+//////////////////////////////////////////////////////////////////////////////////////////
+
+//脚本作者：荆棘
+//更新日期：2012年08月21日

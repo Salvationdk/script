@@ -1,0 +1,17 @@
+{
+   "BestResolution" : {
+      "X" : 0,
+      "Y" : 0
+   },
+   "ChangeFileList" : 11111,
+   "Description" : "",
+   "FileVersion" : {
+      ".atc" : 1,
+      ".mq" : 1,
+      ".prop" : 1,
+      ".rtd" : 1,
+      ".ui" : 1
+   },
+   "Name" : "RTTC",
+   "id" : "2a782c42-8e67-42ee-8986-900a756f2299"
+}

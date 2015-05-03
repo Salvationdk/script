@@ -1,0 +1,17 @@
+{
+   "BestResolution" : {
+      "X" : 0,
+      "Y" : 0
+   },
+   "ChangeFileList" : 0,
+   "Description" : "",
+   "FileVersion" : {
+      ".atc" : 0,
+      ".mq" : 1,
+      ".prop" : 1,
+      ".rtd" : 0,
+      ".ui" : 0
+   },
+   "Name" : "rc",
+   "id" : "262a2bed-06f5-4657-ba0d-53f66d217eee"
+}

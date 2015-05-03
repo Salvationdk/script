@@ -1,0 +1,20 @@
+TracePrint "我是主线程，先启动子线程1并等其运行完"
+dim a = Thread.Start(子线程,1,3)
+Thread.Wait(a)
+TracePrint "我是主线程，子线程1总算运行完了，下面启动子线程2、3，并在5秒后停止脚本"
+Thread.Start(子线程,2,3)
+Thread.Start(子线程,3,8)
+For i = 1 to 5
+    Delay 1000
+    TracePrint "【主程序】运行了" & i & "秒"
+next
+TracePrint "【主程序】运行完毕，还在运行的线程3也只好跟我一起停止了,此时共享变量值=" & Thread.GetShareVar("共享变量")
+
+Sub 子线程(序号,循环时间)
+    For i = 1 to 循环时间
+        Delay 1000
+        TracePrint "子线程" & 序号 & "运行了" & i & "秒"
+    next
+    Thread.SetShareVar "共享变量", 序号
+    TracePrint "========子线程" & 序号 & "运行完毕并把共享变量改成了" & 序号 & "========"
+End sub

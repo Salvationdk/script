@@ -1,0 +1,17 @@
+{
+   "BestResolution" : {
+      "X" : 0,
+      "Y" : 0
+   },
+   "ChangeFileList" : 0,
+   "Description" : "",
+   "FileVersion" : {
+      ".atc" : 1,
+      ".mq" : 1,
+      ".prop" : 1,
+      ".rtd" : 0,
+      ".ui" : 1
+   },
+   "Name" : "天天酷跑好友送心",
+   "id" : "5a13e736-8dac-444a-9bfa-b06610be9ccb"
+}

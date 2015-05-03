@@ -1,0 +1,17 @@
+{
+   "BestResolution" : {
+      "X" : 0,
+      "Y" : 0
+   },
+   "ChangeFileList" : 0,
+   "Description" : "",
+   "FileVersion" : {
+      ".atc" : 1,
+      ".mq" : 1,
+      ".prop" : 1,
+      ".rtd" : 1,
+      ".ui" : 1
+   },
+   "Name" : "Arena",
+   "id" : "a20b5035-e077-4f8e-951d-084659b6e897"
+}

@@ -1,0 +1,17 @@
+{
+   "BestResolution" : {
+      "X" : 0,
+      "Y" : 0
+   },
+   "ChangeFileList" : 11011,
+   "Description" : "",
+   "FileVersion" : {
+      ".atc" : 1,
+      ".mq" : 2,
+      ".prop" : 2,
+      ".rtd" : 2,
+      ".ui" : 2
+   },
+   "Name" : "MYNBA2K",
+   "id" : "19baf21e-c07e-422f-96fe-6259b72cb7f6"
+}

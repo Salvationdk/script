@@ -1,0 +1,152 @@
+Delay 100
+Dim rColor
+Dim num
+
+Rem a
+
+rColor = CmpColor(1002,49,"EFEFEF",1.0)
+If rColor > -1 Then
+    Tap 558, 1764
+    Delay 200
+    Goto a
+End If
+
+
+rColor = CmpColor(660, 44, "000000", 1.0)
+If rColor > -1 Then  
+    Tap 200, 1800
+    Tap 350, 1800
+    Tap 500, 1800
+    Tap 650, 1800
+    Tap 760, 1800
+    Delay 100
+    
+    rColor = CmpColor(178,1245,"8C8A8C",1.0)
+    If rColor > -1 Then 
+        type(731, 762)
+        Delay 500
+        type(761, 797)
+        Delay 500
+        type(790, 832)
+        Delay 500
+        type(821, 862)
+        Delay 500
+        Tap 734, 1163
+        Delay 200
+        Goto a
+    End If
+    Goto a
+End If
+
+
+rColor = CmpColor(1007, 49, "000000", 1.0)
+If rColor > -1 Then
+    Tap 125, 330
+    Tap 335, 330
+    Tap 555, 330
+    Tap 755, 330
+    Tap 955, 330
+
+    Tap 125, 585
+    Tap 335, 585
+    Tap 555, 585
+    Tap 755, 585
+    Tap 955, 585
+
+
+    Tap 125, 833
+    Tap 335, 833
+    Tap 555, 833
+    Tap 755, 833
+    Tap 955, 833
+
+    Tap 125, 1086
+    Tap 335, 1086
+    Tap 555, 1086
+    Tap 755, 1086
+    Tap 955, 1086
+
+    Tap 125, 1340
+    Tap 335, 1340
+    Tap 555, 1340
+    Tap 755, 1340
+    Tap 955, 1340
+
+    Delay 200
+    Goto a
+End If
+
+Goto a
+
+
+
+
+
+
+
+Function type(x1, x2)
+    Dim intX, intY
+   
+   
+    FindPic x1, 1383, x2, 1442, "Attachment:00.png", "000000" ,0, 0.9, intX, intY
+    If intX > -1 Then 
+        Tap 539,1158
+        Exit Function
+    End If
+    
+    FindPic x1, 1383, x2, 1442, "Attachment:11.png", "000000" ,0, 0.9, intX, intY
+    If intX > -1 Then 
+        Tap 322, 996
+        Exit Function
+    End If
+    
+    FindPic x1, 1383, x2, 1442, "Attachment:22.png", "000000" ,0, 0.9, intX, intY
+    If intX > -1 Then 
+        Tap 539, 994
+        Exit Function
+    End If
+    
+    FindPic x1, 1383, x2, 1442, "Attachment:33.png", "000000" ,0, 0.9, intX, intY
+    If intX > -1 Then 
+        Tap 758, 990
+        Exit Function
+    End If
+   
+    FindPic x1, 1383, x2, 1442, "Attachment:44.png", "000000" ,0, 0.9, intX, intY
+    If intX > -1 Then 
+        Tap 319, 830
+        Exit Function
+    End If
+    
+    FindPic x1, 1383, x2, 1442, "Attachment:55.png", "000000" ,0, 0.9, intX, intY
+    If intX > -1 Then 
+        Tap 539, 830
+        Exit Function
+    End If
+    
+    FindPic x1, 1383, x2, 1442, "Attachment:66.png", "000000" ,0, 0.9, intX, intY
+    If intX > -1 Then 
+        Tap 756, 827
+        Exit Function
+    End If
+    
+    FindPic x1, 1383, x2, 1442, "Attachment:77.png", "000000" ,0, 0.9, intX, intY
+    If intX > -1 then
+        Tap 318, 670
+        Exit Function
+    End If
+    
+    FindPic x1, 1383, x2, 1442, "Attachment:88.png", "000000" ,0, 0.9, intX, intY
+    If intX > -1 then
+        Tap 540, 670
+        Exit Function
+    End If
+    
+    FindPic x1, 1383, x2, 1442, "Attachment:99.png", "000000" ,0, 0.9, intX, intY
+    If intX > -1 then 
+        Tap 761, 669
+        Exit Function
+    End If
+    
+    
+End Function

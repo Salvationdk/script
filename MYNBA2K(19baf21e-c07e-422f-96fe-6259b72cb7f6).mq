@@ -1,0 +1,569 @@
+Delay 500
+Dim rColor,intX, intY
+Dim model1, model2, tier, i, model3
+model1 = ReadUIConfig("多选框1")
+tier = ReadUIConfig("下拉框0")
+Dim ArrX, ArrT, ArrS, ArrE
+ArrX = Array(200, 350, 500, 650, 760)
+ArrS = Array(209, 372, 532, 693, 855)
+ArrE = Array(248, 410, 571, 732, 894)
+ArrT = Array(ReadUIConfig("下拉框1"), ReadUIConfig("下拉框2"), ReadUIConfig("下拉框3"), ReadUIConfig("下拉框4"), ReadUIConfig("下拉框5"))
+Dim t
+t = Time()
+Dim RTTC = ReadUIConfig("多选框3")
+Dim RTTCtier = ReadUIConfig("下拉框6")
+Dim order = 1
+Dim isStart = true
+Dim win = 0
+Dim lose = 0
+Dim MyString
+Dim MyArray(11)
+MyArray(0) = "进行："
+MyArray(1) = "0"
+MyArray(2) = "场战斗"
+MyArray(3) = Chr(10)
+MyArray(4) = "胜利："
+MyArray(5) = "5"
+MyArray(6) = "场战斗"
+MyArray(7) = Chr(10)
+MyArray(8) = "失败："
+MyArray(9) = "6"
+MyArray(10) = "场战斗"
+Dim spell = ReadUIConfig("下拉框7")
+
+
+Rem B
+
+
+If model1 Or RTTC then
+    Do
+        //输入密码    
+        If CmpColorEx("176|1004|8C9294,177|661|848A94,176|381|94969C,345|203|737573,674|203|4A454A,901|384|7B797B,901|686|7B797B,901|1506|7B797B,670|1507|5A555A,215|1507|848684,606|478|313131,784|515|DECEDE,796|815|DECEDE,496|847|DECEDE,368|1012|D6CAD6,427|1142|EFEFEF,680|1141|DECEDE,801|976|DECADE",0.9)=1 Then         
+            Delay 500
+            Tap 346, 1164
+            Delay 500
+            pwd(731, 772)
+            pwd(751, 805)
+            pwd(785, 831)
+            pwd(812, 860)
+            Tap 734, 1163
+            Delay 200
+            //选player
+        ElseIf CmpColorEx("67|53|000000,1014|53|000000,313|50|FFEFFF,366|46|FFEFFF,421|61|FFEFFF,502|58|FFEFFF,682|36|FFEFFF,746|28|FFEFFF,697|42|000000,639|56|000000",0.9)=1 Then         
+              choosePlayer()
+            //选择奖励
+        ElseIf CmpColorEx("67|55|000000,1004|56|000000,383|58|21AAEF,335|21|EFEFEF,333|93|EFEFEF,350|28|EFEBEF,740|20|E6EBE6,745|89|EFEFEF,689|16|EFEFEF,465|17|EFEFEF",0.9)=1 Then 
+            count
+            touchMatrix      
+            //点击proceed
+        ElseIf CmpColorEx("67|55|000000,1004|56|E6EBE6,383|58|21AAEF,335|21|EFEFEF,333|93|EFEFEF,350|28|EFEBEF,740|20|E6EBE6,745|89|EFEFEF,689|16|EFEFEF,465|17|EFEFEF",0.9)=1  Then 
+            Tap 550, 1800  
+            //选择对手
+        ElseIf CmpColorEx("1004|50|EFEBEF,74|58|E6EBE6,329|85|FFEFFF,329|96|FFEFFF,423|54|FFEFFF,601|61|FFEFFF,640|32|FFEFFF,681|37|FFEFFF,720|37|FFF3FF,746|56|FFEFFF",0.9)=1 Then  
+            Tap 500, 1670
+            show
+            //菜单界面 点击出现侧边栏（MyNBA2K15）
+        ElseIf CmpColorEx("328|37|FFF3FF,327|71|FFEFFF,348|69|FFF3FF,437|33|FFEFFF,521|32|FFEFFF,576|68|FFEFFF,628|33|FFF3FF,650|57|FFF3FF,708|29|FFF3FF,730|78|FFEFFF",0.9)=1 Then 
+            If RTTC And (Time() - t) > 2000 Then 
+                goto A             
+            Else
+                Tap 369,773
+                Delay 1000       
+            End If
+            //菜单界面 出现侧边栏 点击Quick Game
+            If FindColor(934,851,949,868,"FFFFFF",0,1.0,intX,intY) > -1 then 
+                Tap 925, 500
+                Delay 1000
+            End If
+            //limit 开始合卡
+        ElseIf CmpColorEx("59|627|FFFFFF,420|421|FFFFFF,878|421|FFFFFF,1027|426|FFFFFF,1023|692|FFFFFF,1027|1058|FFFFFF,886|1063|FFFFFF,467|1060|FFFFFF,60|1062|FFFFFF,59|822|FFFFFF,138|686|FFEFFF,183|693|FFEFFF,469|771|FFEFFF,469|799|FFEFFF,528|783|FFF3FF,587|772|FFEFFF,610|800|FFEFFF,568|758|FFEFFF,487|757|FFEFFF,673|678|FFEFFF,949|677|FFEFFF,929|692|FFEFFF,927|722|FFEFFF,948|708|FFEFFF,862|715|FFF3FF,829|694|FFEFFF,863|721|FFEFFF,268|695|FFF3FF,874|693|FFF3FF,595|771|FFEFFF",0.9)=1 Then 
+            chooseCombineModel        
+            //出现对话框 点击ok
+        ElseIf CmpColorEx("56|823|FFFFFF,57|534|FFFFFF,339|1064|FFFFFF,846|1065|FFFFFF,1026|840|FFFFFF,1029|551|FFFFFF,924|421|FFFFFF,741|421|FFFFFF,397|422|FFFFFF,364|1065|FFFFFF",0.9)=1 Then 
+            Tap 616, 1197
+            // 在选择card to train界面 和 train card界面 点击 小房子  
+        ElseIf CmpColorEx("61|50|EFEFEF,366|29|FFF3FF,438|29|FFF3FF,457|81|FFEFFF,477|29|FFEFFF,520|60|FFEFFF,610|38|FFEFFF,650|31|FFF3FF,723|83|FFEFFF,994|50|E6EBE6",0.9)=1 Or CmpColorEx("65|57|EFEFEF,178|27|FFF3FF,261|29|FFEFFF,419|51|FFEFFF,634|27|FFF3FF,873|28|FFEFFF,918|44|FFEFFF,688|85|FFF3FF",0.9)=1 then
+            Tap 1000, 50            
+            //登陆界面 点击进入菜单
+        ElseIf CmpColorEx("304|1484|2120FF,234|1327|3A00EF,203|1393|CE5510,348|1354|B5BAB5,554|1496|2120FF,900|1465|8C8A8C,890|1584|B5BAB5,875|1655|DEDBDE,611|1563|000000,885|1373|FFFFFF", 0.9) = 1 Then 
+            Tap 550, 20
+        //冠军之路 提醒
+        ElseIf CmpColorEx("514|1630|FFEFFF,532|1631|FFF3FF,512|1661|FFF3FF,531|1661|FFEFFF,545|1629|FEEEFE,545|1662|FFEFFF,563|1629|FFEFFF,564|1662|FFEFFF,552|1646|FFEFFF,539|1723|FFFFFF",0.9)=1 Then  
+            Tap 537, 1648      
+        End If
+        Delay 100
+        Tap 500, 5
+    Loop
+End If
+
+model2 = ReadUIConfig("多选框2")
+
+If model2 then 	
+    Do
+    
+        //输入密码    
+        If CmpColorEx("176|1004|8C9294,177|661|848A94,176|381|94969C,345|203|737573,674|203|4A454A,901|384|7B797B,901|686|7B797B,901|1506|7B797B,670|1507|5A555A,215|1507|848684,606|478|313131,784|515|DECEDE,796|815|DECEDE,496|847|DECEDE,368|1012|D6CAD6,427|1142|EFEFEF,680|1141|DECEDE,801|976|DECADE",0.9)=1 Then         
+            Delay 500
+            Tap 346, 1164
+            Delay 500
+            pwd(731, 772)
+            pwd(751, 805)
+            pwd(785, 831)
+            pwd(812, 860)
+            Tap 734, 1163
+            Delay 200
+            //选player
+        ElseIf CmpColorEx("330|33|FFF3FF,386|29|FFF3FF,451|29|FFEFFF,649|84|FFEFFF,668|82|FFEFFF,757|39|FFEFFF,757|37|FFEFFF,797|56|FFEFFF,1009|46|000000",0.9)=1  Then         
+            choosePlayer()
+            //选择play for your team
+        ElseIf CmpColorEx("59|60|EFEFEF,275|29|FFEFFF,328|28|FFEFFF,384|28|FFEFFF,432|84|FFEFFF,451|28|FFEFFF,777|29|FFEFFF,623|30|FFEFFF,690|32|FFEFFF,1009|46|EFEFEF",0.9)=1 Then 
+            Tap 500, 1000
+            //选择奖励
+        ElseIf CmpColorEx("67|55|000000,1004|56|000000,383|58|21AAEF,335|21|EFEFEF,333|93|EFEFEF,350|28|EFEBEF,740|20|E6EBE6,745|89|EFEFEF,689|16|EFEFEF,465|17|EFEFEF",0.9)=1 Then
+            count
+            touchMatrix      
+            //点击proceed
+        ElseIf CmpColorEx("67|55|000000,1004|56|E6EBE6,383|58|21AAEF,335|21|EFEFEF,333|93|EFEFEF,350|28|EFEBEF,740|20|E6EBE6,745|89|EFEFEF,689|16|EFEFEF,465|17|EFEFEF",0.9)=1  Then 
+            Tap 550, 1800           
+            //选择对手 目前默认选择第二个
+        ElseIf CmpColorEx("70|55|EFEFEF,344|28|E6EBE6,686|14|E6EBE6,645|94|EFEFEF,749|88|EFEFEF,749|32|EFEFEF,455|94|EFEFEF,456|15|EFEFEF,331|93|EFEFEF,1000|49|EFEFEF",0.9)=1 Then                     
+            chooseEnemy (tier)
+            show
+            //菜单界面 点击进入RC
+        ElseIf CmpColorEx("328|37|FFF3FF,327|71|FFEFFF,348|69|FFF3FF,437|33|FFEFFF,521|32|FFEFFF,576|68|FFEFFF,628|33|FFF3FF,650|57|FFF3FF,708|29|FFF3FF,730|78|FFEFFF",0.9)=1 Then 
+            Tap 500,1500
+            Delay 1000
+            //进入reward界面 点击后退         
+        ElseIf CmpColorEx("358|28|FFEFFF,385|60|FFEFFF,439|28|FFEFFF,488|28|FFEFFF,517|27|FFEFFF,588|28|FFEFFF,644|28|FFEFFF,713|28|FFEFFF,1005|48|EFEFEF",0.9)=1 Then    
+            Tap 75, 60
+            Delay 1000
+            //limit 开始合卡
+        ElseIf CmpColorEx("59|627|FFFFFF,420|421|FFFFFF,878|421|FFFFFF,1027|426|FFFFFF,1023|692|FFFFFF,1027|1058|FFFFFF,886|1063|FFFFFF,467|1060|FFFFFF,60|1062|FFFFFF,59|822|FFFFFF,138|686|FFEFFF,183|693|FFEFFF,469|771|FFEFFF,469|799|FFEFFF,528|783|FFF3FF,587|772|FFEFFF,610|800|FFEFFF,568|758|FFEFFF,487|757|FFEFFF,673|678|FFEFFF,949|677|FFEFFF,929|692|FFEFFF,927|722|FFEFFF,948|708|FFEFFF,862|715|FFF3FF,829|694|FFEFFF,863|721|FFEFFF,268|695|FFF3FF,874|693|FFF3FF,595|771|FFEFFF",0.9)=1 Then        
+            chooseCombineModel 
+            //出现对话框 点击ok
+        ElseIf CmpColorEx("56|823|FFFFFF,57|534|FFFFFF,339|1064|FFFFFF,846|1065|FFFFFF,1026|840|FFFFFF,1029|551|FFFFFF,924|421|FFFFFF,741|421|FFFFFF,397|422|FFFFFF,364|1065|FFFFFF",0.9)=1 Then        
+            Tap 616, 1197
+            // 在选择card to train界面 和 train card界面 点击 小房子  
+        ElseIf CmpColorEx("61|50|EFEFEF,366|29|FFF3FF,438|29|FFF3FF,457|81|FFEFFF,477|29|FFEFFF,520|60|FFEFFF,610|38|FFEFFF,650|31|FFF3FF,723|83|FFEFFF,994|50|E6EBE6",0.9)=1 Or CmpColorEx("65|57|EFEFEF,178|27|FFF3FF,261|29|FFEFFF,419|51|FFEFFF,634|27|FFF3FF,873|28|FFEFFF,918|44|FFEFFF,688|85|FFF3FF",0.9)=1 then
+            Tap 1000, 50
+            //登陆界面 点击进入菜单
+        ElseIf CmpColorEx("304|1484|2120FF,234|1327|3A00EF,203|1393|CE5510,348|1354|B5BAB5,554|1496|2120FF,900|1465|8C8A8C,890|1584|B5BAB5,875|1655|DEDBDE,611|1563|000000,885|1373|FFFFFF", 0.9) = 1 Then 
+            Tap 550, 20
+            //冠军之路 提醒
+        ElseIf CmpColorEx("514|1630|FFEFFF,532|1631|FFF3FF,512|1661|FFF3FF,531|1661|FFEFFF,545|1629|FEEEFE,545|1662|FFEFFF,563|1629|FFEFFF,564|1662|FFEFFF,552|1646|FFEFFF,539|1723|FFFFFF",0.9)=1 Then 
+            Tap 537, 1648  
+        End If
+        Delay 100
+        Tap 500, 5        
+    Loop
+End If
+
+
+model3 = ReadUIConfig("多选框4")
+
+
+If model3 Then 
+
+    Do	
+        //输入密码    
+        If CmpColorEx("176|1004|8C9294,177|661|848A94,176|381|94969C,345|203|737573,674|203|4A454A,901|384|7B797B,901|686|7B797B,901|1506|7B797B,670|1507|5A555A,215|1507|848684,606|478|313131,784|515|DECEDE,796|815|DECEDE,496|847|DECEDE,368|1012|D6CAD6,427|1142|EFEFEF,680|1141|DECEDE,801|976|DECADE",1.0)=1 Then         
+            Delay 500
+            Tap 346, 1164
+            Delay 500
+            pwd(731, 772)
+            pwd(751, 805)
+            pwd(785, 831)
+            pwd(812, 860)
+            Tap 734, 1163
+            Delay 200
+            //选择player
+        ElseIf CmpColorEx("70|57|000000,1004|48|000000,151|27|FFEFFF,289|28|FFEFFF,421|28|FFEFFF,556|31|FFF3FF,729|27|FFEFFF,856|27|FFF3FF,894|28|FFEFFF,913|100|FFEFFF",0.9)=1 Then 
+            If order = 1 then            
+                Tap 200, 1800
+                Tap 350, 1800
+                Tap 500, 1800
+                Tap 650, 1800
+                Tap 760, 1800
+                order = 2
+            Else 
+                Tap 760, 1800
+                Tap 650, 1800
+                Tap 500, 1800
+                Tap 350, 1800
+                Tap 200, 1800
+                order = 1
+            End If
+            //选择奖励                
+        ElseIf CmpColorEx("67|55|000000,1004|56|000000,383|58|21AAEF,335|21|EFEFEF,333|93|EFEFEF,350|28|EFEBEF,740|20|E6EBE6,745|89|EFEFEF,689|16|EFEFEF,465|17|EFEFEF",0.9)=1 Then            
+            touchMatrix      
+            //点击proceed    
+        ElseIf CmpColorEx("67|55|000000,1004|56|E6EBE6,383|58|21AAEF,335|21|EFEFEF,333|93|EFEFEF,350|28|EFEBEF,740|20|E6EBE6,745|89|EFEFEF,689|16|EFEFEF,465|17|EFEFEF",0.9)=1  Then 
+            Tap 550, 1800
+            Delay 2000
+            //退出    
+        ElseIf CmpColorEx("67|55|EFEFEF,1004|44|E6EBE6,891|598|3A8EC5,670|895|108AD6,344|891|1989DE,750|718|F7EBF7,776|737|FFEFFF,752|1056|F7EBF7,787|1056|FFEFFF,821|1056|FFEFFF",0.9)=1 Then  
+            Tap 537,1206
+            Delay 2000
+            //点击play           
+        ElseIf CmpColorEx("76|54|EFEBEF,1003|43|EFEFEF,332|14|EEEBEE,748|17|EEEFEE,332|92|E6EBE6,749|93|EFEFEF,416|1673|000000,451|1676|000000,500|1670|000000,500|1668|000000",0.9)=1 Then 
+            Tap 916, 1345
+            
+            //选择对手 
+        ElseIf CmpColorEx("70|54|E6EBE6,999|43|EFEFEF,907|605|000000,915|629|000000,924|603|000000,937|616|000000,953|608|000000,944|617|000000,945|603|000000,894|617|000000",0.9)=1 Then 
+            If RTTCtier = 0 Then 
+            	Tap 60, 900
+            ElseIf RTTCtier = 1 Then
+                Tap 60, 1150
+            ElseIf RTTCtier = 2 Then
+                Tap 60, 1400
+            End If
+            // how to play
+        ElseIf CmpColorEx("70|54|E6EBE6,999|43|EFEFEF,290|33|FFF3FF,322|30|FFEFFF,361|28|FFEFFF,427|31|FFEFFF,506|29|FFF3FF,751|83|FFEFFF,778|80|FFEFFF,795|29|FFEFFF",0.9)=1 Then     
+            Tap 70, 54
+            Delay 2000
+        //菜单界面 点击进入RTTC
+        ElseIf CmpColorEx("328|37|FFF3FF,327|71|FFEFFF,348|69|FFF3FF,437|33|FFEFFF,521|32|FFEFFF,576|68|FFEFFF,628|33|FFF3FF,650|57|FFF3FF,708|29|FFF3FF,730|78|FFEFFF",0.9)=1 Then 
+            Tap 50,1500
+            Delay 1000
+        //合卡
+        ElseIf CmpColorEx("59|627|FFFFFF,420|421|FFFFFF,878|421|FFFFFF,1027|426|FFFFFF,1023|692|FFFFFF,1027|1058|FFFFFF,886|1063|FFFFFF,467|1060|FFFFFF,60|1062|FFFFFF,59|822|FFFFFF,138|686|FFEFFF,183|693|FFEFFF,469|771|FFEFFF,469|799|FFEFFF,528|783|FFF3FF,587|772|FFEFFF,610|800|FFEFFF,568|758|FFEFFF,487|757|FFEFFF,673|678|FFEFFF,949|677|FFEFFF,929|692|FFEFFF,927|722|FFEFFF,948|708|FFEFFF,862|715|FFF3FF,829|694|FFEFFF,863|721|FFEFFF,268|695|FFF3FF,874|693|FFF3FF,595|771|FFEFFF",0.9)=1 Then        
+            chooseCombineModel                                 
+            //出现对话框 点击ok
+        ElseIf CmpColorEx("56|823|FFFFFF,57|534|FFFFFF,339|1064|FFFFFF,846|1065|FFFFFF,1026|840|FFFFFF,1029|551|FFFFFF,924|421|FFFFFF,741|421|FFFFFF,397|422|FFFFFF,364|1065|FFFFFF",1.0)=1 Then 
+            Tap 616, 1197            
+            // 在选择card to train界面 和 train card界面 点击 小房子  
+        ElseIf CmpColorEx("61|50|EFEFEF,366|29|FFF3FF,438|29|FFF3FF,457|81|FFEFFF,477|29|FFEFFF,520|60|FFEFFF,610|38|FFEFFF,650|31|FFF3FF,723|83|FFEFFF,994|50|E6EBE6",0.9)=1 Or CmpColorEx("65|57|EFEFEF,178|27|FFF3FF,261|29|FFEFFF,419|51|FFEFFF,634|27|FFF3FF,873|28|FFEFFF,918|44|FFEFFF,688|85|FFF3FF",0.9)=1 then
+            Tap 1000, 50
+            //冠军之路 提醒
+        ElseIf CmpColorEx("514|1630|FFEFFF,532|1631|FFF3FF,512|1661|FFF3FF,531|1661|FFEFFF,545|1629|FEEEFE,545|1662|FFEFFF,563|1629|FFEFFF,564|1662|FFEFFF,552|1646|FFEFFF,539|1723|FFFFFF",0.9)=1 Then  
+            Tap 537, 1648      
+        End If
+        Delay 100
+        Tap 550, 20 	
+    Loop	
+	
+	
+	
+End If
+
+
+
+Rem A
+
+If RTTC Then 
+    Do	
+        //输入密码    
+        If CmpColorEx("176|1004|8C9294,177|661|848A94,176|381|94969C,345|203|737573,674|203|4A454A,901|384|7B797B,901|686|7B797B,901|1506|7B797B,670|1507|5A555A,215|1507|848684,606|478|313131,784|515|DECEDE,796|815|DECEDE,496|847|DECEDE,368|1012|D6CAD6,427|1142|EFEFEF,680|1141|DECEDE,801|976|DECADE",1.0)=1 Then         
+            Delay 500
+            Tap 346, 1164
+            Delay 500
+            pwd(731, 772)
+            pwd(751, 805)
+            pwd(785, 831)
+            pwd(812, 860)
+            Tap 734, 1163
+            Delay 200
+            //选择player
+        ElseIf CmpColorEx("70|57|000000,1004|48|000000,151|27|FFEFFF,289|28|FFEFFF,421|28|FFEFFF,556|31|FFF3FF,729|27|FFEFFF,856|27|FFF3FF,894|28|FFEFFF,913|100|FFEFFF",0.9)=1 Then 
+            If order = 1 then            
+                Tap 200, 1800
+                Tap 350, 1800
+                Tap 500, 1800
+                Tap 650, 1800
+                Tap 760, 1800
+                order = 2
+            Else 
+                Tap 760, 1800
+                Tap 650, 1800
+                Tap 500, 1800
+                Tap 350, 1800
+                Tap 200, 1800
+                order = 1
+            End If   
+            //选择奖励                
+        ElseIf CmpColorEx("67|55|000000,1004|56|000000,383|58|21AAEF,335|21|EFEFEF,333|93|EFEFEF,350|28|EFEBEF,740|20|E6EBE6,745|89|EFEFEF,689|16|EFEFEF,465|17|EFEFEF",0.9)=1 Then            
+            touchMatrix      
+            //点击proceed    
+        ElseIf CmpColorEx("67|55|000000,1004|56|E6EBE6,383|58|21AAEF,335|21|EFEFEF,333|93|EFEFEF,350|28|EFEBEF,740|20|E6EBE6,745|89|EFEFEF,689|16|EFEFEF,465|17|EFEFEF",0.9)=1  Then 
+            Tap 550, 1800
+            Delay 2000
+            //退出    
+        ElseIf CmpColorEx("67|55|EFEFEF,1004|44|E6EBE6,891|598|3A8EC5,670|895|108AD6,344|891|1989DE,750|718|F7EBF7,776|737|FFEFFF,752|1056|F7EBF7,787|1056|FFEFFF,821|1056|FFEFFF",0.9)=1 Then  
+            Tap 1000, 50
+            Delay 2000
+            t = Time()
+            goto B
+            //点击play           
+        ElseIf CmpColorEx("76|54|EFEBEF,1003|43|EFEFEF,332|14|EEEBEE,748|17|EEEFEE,332|92|E6EBE6,749|93|EFEFEF,416|1673|000000,451|1676|000000,500|1670|000000,500|1668|000000",0.9)=1 Then 
+            Tap 916, 1345
+            
+            //选择对手 
+        ElseIf CmpColorEx("70|54|E6EBE6,999|43|EFEFEF,907|605|000000,915|629|000000,924|603|000000,937|616|000000,953|608|000000,944|617|000000,945|603|000000,894|617|000000",0.9)=1 Then 
+            If RTTCtier = 0 Then 
+            	Tap 60, 900
+            ElseIf RTTCtier = 1 Then
+                Tap 60, 1150
+            ElseIf RTTCtier = 2 Then
+                Tap 60, 1400
+            End If
+            // how to play
+        ElseIf CmpColorEx("70|54|E6EBE6,999|43|EFEFEF,290|33|FFF3FF,322|30|FFEFFF,361|28|FFEFFF,427|31|FFEFFF,506|29|FFF3FF,751|83|FFEFFF,778|80|FFEFFF,795|29|FFEFFF",0.9)=1 Then     
+            Tap 70, 54
+            Delay 2000
+        //菜单界面 点击进入RTTC
+        ElseIf CmpColorEx("328|37|FFF3FF,327|71|FFEFFF,348|69|FFF3FF,437|33|FFEFFF,521|32|FFEFFF,576|68|FFEFFF,628|33|FFF3FF,650|57|FFF3FF,708|29|FFF3FF,730|78|FFEFFF",0.9)=1 Then 
+            Tap 50,1500
+            Delay 1000            
+            //出现对话框 点击ok
+        ElseIf CmpColorEx("56|823|FFFFFF,57|534|FFFFFF,339|1064|FFFFFF,846|1065|FFFFFF,1026|840|FFFFFF,1029|551|FFFFFF,924|421|FFFFFF,741|421|FFFFFF,397|422|FFFFFF,364|1065|FFFFFF",1.0)=1 Then 
+            Tap 616, 1197
+            //冠军之路 提醒
+        ElseIf CmpColorEx("514|1630|FFEFFF,532|1631|FFF3FF,512|1661|FFF3FF,531|1661|FFEFFF,545|1629|FEEEFE,545|1662|FFEFFF,563|1629|FFEFFF,564|1662|FFEFFF,552|1646|FFEFFF,539|1723|FFFFFF",0.9)=1 Then  
+            Tap 537, 1648      
+        End If
+        Delay 100
+        Tap 550, 20    	
+    Loop	
+End If
+
+
+Function show
+	Delay 800
+	MyArray(1) = CStr(win + lose)
+	MyArray(5) = CStr(win) 
+	MyArray(9) = CStr(lose) 
+	
+	MyString = Join(MyArray, "")
+	ShowMessage MyString
+    isStart = true
+    
+End Function
+
+Function count
+    If isStart Then 
+    	If FindColor(337, 1740, 339, 1742, "FFEFFF", 0, 0.9, intX, intY) > -1 Then 
+    		win = win + 1
+    		isStart = false
+    	Elseif FindColor(362, 1739, 364, 1741,"FFEFFF", 0, 0.9, intX, intY) > -1 then
+    	    lose = lose + 1
+    	    isStart = false
+    	End If
+    End If
+    
+End Function
+
+Function chooseCombineModel()
+    Tap 551, 1180
+    Delay 1000
+    If model1 Or RTTC Then 
+    	If CmpColorEx("79|64|EFEFEF,313|46|FFEFFF,367|29|FFEFFF,329|96|FFEFFF,500|33|FFF3FF,587|29|FFEFFF,640|29|FFF3FF,677|29|FFEFFF,722|29|FFF3FF,1000|51|EFEFEF", 0.9) = 1 Then 
+    		combine
+    	End If
+    ElseIf model2 Then    	 
+    	If CmpColorEx("66|55|EFEFEF,1004|45|EFEFEF,284|58|FFEFFF,413|68|FFEFFF,587|84|FFEFFF,637|84|FFEFFF,688|68|FFEFFF,741|28|FFEFFF,794|55|FFF3FF", 0.9) = 1 Or CmpColorEx("67|54|EFEFEF,1002|51|EFEFEF,331|15|EFEFEF,331|93|EFEFEF,749|16|EFEFEF,748|92|E7EBE7,749|51|EFEFEF,572|93|EEEFEE", 0.9) = 1 Then 
+    		combine
+    	End If
+    ElseIf model3 Then
+    	If CmpColorEx("76|54|EFEBEF,1003|43|EFEFEF",0.9)=1 Then
+    	    combine 
+    	End IF    
+    End If
+End Function
+
+
+Function combine()
+    
+    Tap 1000, 50
+    Delay 2000
+    // 直到select card 或者 train card界面 退出循环   //CmpColorEx("61|50|EFEFEF,366|29|FFF3FF,438|29|FFF3FF,457|81|FFEFFF,477|29|FFEFFF,520|60|FFEFFF,610|38|FFEFFF,650|31|FFF3FF,723|83|FFEFFF,994|50|E6EBE6",0.9)=1   Or
+   
+    Do Until  CmpColorEx("65|57|EFEFEF,178|27|FFF3FF,261|29|FFEFFF,419|51|FFEFFF,634|27|FFF3FF,873|28|FFEFFF,918|44|FFEFFF,688|85|FFF3FF",0.9)=1
+        //冠军之路 提醒
+        If CmpColorEx("514|1630|FFEFFF,532|1631|FFF3FF,512|1661|FFF3FF,531|1661|FFEFFF,545|1629|FEEEFE,545|1662|FFEFFF,563|1629|FFEFFF,564|1662|FFEFFF,552|1646|FFEFFF,539|1723|FFFFFF",0.9)=1 Then 
+            Tap 537, 1648  
+        End If
+        If CmpColorEx("328|37|FFF3FF,327|71|FFEFFF,348|69|FFF3FF,437|33|FFEFFF,521|32|FFEFFF,576|68|FFEFFF,628|33|FFF3FF,650|57|FFF3FF,708|29|FFF3FF,730|78|FFEFFF",0.9)=1 Then        
+            //菜单界面 出现侧边栏 点击Train
+            If FindColor(934,851,949,868,"FFFFFF",0,1.0,intX,intY) > -1 then 
+                Tap 1060, 1506
+                Delay 700                     
+            ElseIf FindColor(800, 1045, 810, 1053, "000000", 0, 1.0, intX, intY) > -1 Then                 
+                Tap 369, 680
+                Delay 700
+            End If                
+        End If
+        Delay 500
+    Loop
+    Delay 500
+         
+    //循环点击 直到出现train card界面！
+    Do Until CmpColorEx("154|248|CECACE,153|298|CECECE,928|247|CECECE,927|299|CECECE,75|617|FFEFFF,49|647|FFEFFF,696|610|FFEFFF,885|612|FFEFFF,945|611|FFEFFF,1011|670|FFEFFF,73|56|EFEFEF,331|28|FFEFFF,395|29|FFEFFF,476|28|FFEFFF,648|30|FFEFFF,723|83|FFEFFF,741|82|FFEFFF,418|83|FFF3FF,400|83|FFF3FF,999|41|EFEFEF",0.9)=1 
+        Tap 570, 375
+        Delay 200
+    Loop
+    Delay 500
+          
+    // 循环一直到整个列表最底下
+    Do Until CmpColorEx("56|1707|213942,21|1707|193542,995|1707|3A6D84,1058|1707|3A6D8C,25|1723|193142,96|1723|21394A,1024|1723|3A698C,1052|1723|3A698C",0.9)=1                  
+        Dim start = 750
+        TouchDown 25,1700, 1
+        TouchMove 25, 10, 1,500
+        Delay 100
+        TouchUp 1                                                
+        Do Until start >= 1918 Or FindPic(29, start, 70, 1918, "Attachment:su.png|Attachment:ra.png|Attachment:un.png|Attachment:co.png","000000",0, 0.8, intX, intY) = -1
+            Delay 100
+            Dim check = intY + 157
+            If check >= 1920 Or CmpColor(173, check,"000000",1.0) = -1
+                Tap intX, intY
+            End if
+            start = intY + 250
+            Delay 100
+        Loop          
+        Delay 100
+    Loop
+    Delay 200
+    Tap 548, 1840
+             
+End Function
+
+
+
+Function chooseEnemy(tier)
+    Delay 800
+    If tier = 0 Then 
+        Tap 500, 1100
+    ElseIF tier = 1 then
+        Tap 500, 1400   	
+    Else 
+        Tap 500, 1700    	
+    End If
+End Function
+
+
+Function choosePlayer()
+    If FindColor(8, 1898, 9, 1899, "CECECE|CECACE", 0, 0.9, intX, intY) > -1 Then 
+        
+        If FindColor(ArrS(ArrT(0)), 1875, ArrE(ArrT(0)), 1875, "FFEFFF|FFF3FF", 0, 0.9, intX, intY) > -1 Then 
+         
+            If spell = 0 Then 
+                If CmpColorEx("500|1027|FFF3FF,504|1037|FFF3FF,517|1075|FFEFFF,525|1063|FFEFFF,535|1025|FFEFFF,579|1034|FFEFFF,568|1028|FFEFFF,554|1038|FFEFFF,577|1056|FFEFFF,554|1068|FFEFFF", 0.9) = 1 Then 
+                    Tap 1057,1712
+                    Delay 50
+                    Tap ArrX(ArrT(0)), 1800
+                End If
+            Else 
+                Tap ArrX(ArrT(0)), 1800	
+            End If          
+        ElseIf FindColor(ArrS(ArrT(1)), 1875, ArrE(ArrT(1)), 1875, "FFEFFF|FFF3FF", 0, 0.9, intX, intY) > -1 Then
+            If spell = 1 Then 
+                If CmpColorEx("500|1027|FFF3FF,504|1037|FFF3FF,517|1075|FFEFFF,525|1063|FFEFFF,535|1025|FFEFFF,579|1034|FFEFFF,568|1028|FFEFFF,554|1038|FFEFFF,577|1056|FFEFFF,554|1068|FFEFFF", 0.9) = 1 Then 
+                    Tap 1057,1712
+                    Delay 50
+                    Tap ArrX(ArrT(1)), 1800
+                End If
+            Else 
+                Tap ArrX(ArrT(1)), 1800	
+            End If
+        ElseIf FindColor(ArrS(ArrT(2)), 1875, ArrE(ArrT(2)), 1875, "FFEFFF|FFF3FF", 0, 0.9, intX, intY) > -1 Then
+            If spell = 2 Then 
+                If CmpColorEx("500|1027|FFF3FF,504|1037|FFF3FF,517|1075|FFEFFF,525|1063|FFEFFF,535|1025|FFEFFF,579|1034|FFEFFF,568|1028|FFEFFF,554|1038|FFEFFF,577|1056|FFEFFF,554|1068|FFEFFF", 0.9) = 1 Then 
+                    Tap 1057,1712
+                    Delay 50
+                    Tap ArrX(ArrT(2)), 1800
+                End If
+            Else 
+                Tap ArrX(ArrT(2)), 1800	
+            End If
+        ElseIf FindColor(ArrS(ArrT(3)), 1875, ArrE(ArrT(3)), 1875, "FFEFFF|FFF3FF", 0, 0.9, intX, intY) > -1 Then
+            If spell = 3 Then 
+                If CmpColorEx("500|1027|FFF3FF,504|1037|FFF3FF,517|1075|FFEFFF,525|1063|FFEFFF,535|1025|FFEFFF,579|1034|FFEFFF,568|1028|FFEFFF,554|1038|FFEFFF,577|1056|FFEFFF,554|1068|FFEFFF", 0.9) = 1 Then 
+                    Tap 1057,1712
+                    Delay 50
+                    Tap ArrX(ArrT(3)), 1800
+                End If
+            Else 
+                Tap ArrX(ArrT(3)), 1800	
+            End If
+        ElseIf FindColor(ArrS(ArrT(4)), 1875, ArrE(ArrT(4)), 1875, "FFEFFF|FFF3FF", 0, 0.9, intX, intY) > -1 Then
+            If spell = 4 Then 
+                If CmpColorEx("500|1027|FFF3FF,504|1037|FFF3FF,517|1075|FFEFFF,525|1063|FFEFFF,535|1025|FFEFFF,579|1034|FFEFFF,568|1028|FFEFFF,554|1038|FFEFFF,577|1056|FFEFFF,554|1068|FFEFFF", 0.9) = 1 Then 
+                    Tap 1057,1712
+                    Delay 50
+                    Tap ArrX(ArrT(4)), 1800
+                End If
+            Else 
+                Tap ArrX(ArrT(4)), 1800	
+            End If 
+        Else 
+            Tap 200, 1800
+            Tap 350, 1800
+            Tap 500, 1800
+            Tap 650, 1800
+            Tap 760, 1800
+        End IF 
+    End If
+    Delay 30
+    Tap ArrX(ArrT(0)), 1800
+     
+End Function
+
+
+Function touchMatrix()
+    Tap 125, 330
+    Tap 335, 330
+    Tap 555, 330
+    Tap 755, 330
+    Tap 955, 330
+
+    Tap 125, 585
+    Tap 335, 585
+    Tap 555, 585
+    Tap 755, 585
+    Tap 955, 585
+    
+    Tap 125, 833
+    Tap 335, 833
+    Tap 555, 833
+    Tap 755, 833
+    Tap 955, 833
+
+    Tap 125, 1086
+    Tap 335, 1086
+    Tap 555, 1086
+    Tap 755, 1086
+    Tap 955, 1086
+
+    Tap 125, 1270
+    Tap 335, 1270
+    Tap 555, 1270
+    Tap 755, 1270
+    Tap 955, 1270
+End Function
+
+
+
+Function pwd(x1, x2)
+    Dim intX, intY    
+    If FindPic(x1, 1383, x2, 1435, "Attachment:00.png", "000000" ,0, 0.9, intX, intY) > -1 then 
+        Tap 539, 1158
+    ElseIf FindPic(x1, 1383, x2, 1435, "Attachment:44.png", "000000", 0, 0.9, intX, intY) > -1 Then
+        Tap 319, 830
+    ElseIf FindPic(x1, 1383, x2, 1435, "Attachment:11.png", "000000", 0, 0.9, intX, intY) > -1 Then
+        Tap 322, 996
+    ElseIf FindPic(x1, 1383, x2, 1435, "Attachment:22.png", "000000", 0, 0.9, intX, intY) > -1 Then
+        Tap 539, 994
+    ElseIf FindPic(x1, 1383, x2, 1435, "Attachment:88.png", "000000", 0, 0.9, intX, intY) > -1 Then
+        Tap 540, 670
+    ElseIf FindPic(x1, 1383, x2, 1435, "Attachment:99.png", "000000", 0, 0.9, intX, intY) > -1 Then
+        Tap 761, 669
+    ElseIf FindPic(x1, 1383, x2, 1435, "Attachment:33.png", "000000", 0, 0.9, intX, intY) > -1 Then
+        Tap 758, 990
+    ElseIf FindPic(x1, 1383, x2, 1435, "Attachment:66.png", "000000", 0, 0.9, intX, intY) > -1 Then
+        Tap 756, 827
+    ElseIf FindPic(x1, 1383, x2, 1435, "Attachment:55.png", "000000", 0, 0.9, intX, intY) > -1 Then
+        Tap 539, 830
+    ElseIf FindPic(x1, 1383, x2, 1435, "Attachment:77.png", "000000", 0, 0.9, intX, intY) > -1 Then
+        Tap 318, 670
+    End If
+    Delay 500
+End Function

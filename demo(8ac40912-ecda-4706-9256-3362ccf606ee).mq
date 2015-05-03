@@ -1,0 +1,46 @@
+KeyPress "Home"
+Delay 3000
+Dim screenX,screenY,deviceID,colorDep,shijian
+screenX = GetScreenX()
+screenY = GetScreenY()
+colorDep = GetScreenColorDep()
+deviceID = GetDeviceID()
+shijian=Now()
+ShowMessage "手机分辨率是："&screenX&"*"&screenY&Chr(10)&"手机色深是："&colorDep&"位"&Chr(10)&"手机IMEI号是："&deviceID&Chr(10)&"当前时间是是："&shijian
+Delay 3000
+ShowMessage "自动滑动演示"
+Delay 1000
+Swipe screenX/2, screenY/2, 0, screenY/2
+Delay 500
+Swipe screenX/2, screenY/2, screenX, screenY/2
+Delay 500
+Swipe screenX/2, 1, screenX/2, screenY
+Delay 500
+ShowMessage "按下HOME键"
+Delay 1000
+KeyPress "Home"
+Delay 2000
+ShowMessage "震两秒试试？"
+Delay 1000
+Vibrate 2000
+Delay 1000
+ShowMessage "音量调节释放"
+Delay 1000
+For 3
+KeyPress "VolUp"
+Delay 200
+next
+For 3
+KeyPress "VolDown"
+Delay 200
+next
+Delay 2000
+ShowMessage "最后去按键移动版官网看看吧~"
+Delay 1000
+RunApp "com.android.quicksearchbox"
+Delay 2000
+InputText "m.anjian.com"
+Delay 100
+KeyPress "Enter"
+Delay 2000
+

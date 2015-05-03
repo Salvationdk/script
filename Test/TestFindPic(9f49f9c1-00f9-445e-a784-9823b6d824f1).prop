@@ -1,0 +1,17 @@
+{
+   "BestResolution" : {
+      "X" : 0,
+      "Y" : 0
+   },
+   "ChangeFileList" : 0,
+   "Description" : "",
+   "FileVersion" : {
+      ".atc" : 1,
+      ".mq" : 1,
+      ".prop" : 1,
+      ".rtd" : 1,
+      ".ui" : 1
+   },
+   "Name" : "TestFindPic",
+   "id" : "9f49f9c1-00f9-445e-a784-9823b6d824f1"
+}

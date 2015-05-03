@@ -1,0 +1,6 @@
+Delay 300
+Rem a
+Tap 461, 1812 // explore
+Tap 414, 961 //Ãæ°ü server
+Delay 50
+Goto a

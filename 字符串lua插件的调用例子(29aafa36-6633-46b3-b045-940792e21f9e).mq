@@ -1,0 +1,37 @@
+//使用方式：
+//1、下载Str.lua插件文件，放到按键精灵PC端安装目录下的plugin文件夹中
+//2、在脚本源码开头写"import 插件名"导入插件文件后即可正常调用命令
+//查看下列函数详细说明请访问：http://bbs.anjian.com/thread-538680-1-1.html
+
+import "Str.lua"//第三方插件调用前必须写import 插件名
+
+//生成重复字符串
+TracePrint   "重复ab字符串3次：",Str.String("ab",3)       	'调试输出 ababab
+
+//字符串替换
+Dim s="hello  world "
+TracePrint "把hello  world中以w字母开头和d字母结尾的单词换成字符我：",Str.Replace(s,"w%a+d","我")    '调试输出：hello 我 
+
+//匹配上的字符
+TracePrint  "把hello  world中以w字母开头和d字母结尾的一个单词提取出来：", Str.Match(s,"w%a+d")    '调试输出：world
+
+//获取时间日期
+Dim MyTime
+MyTime=Str.GetTime()
+TracePrint "当前时间：",MyTime
+Dim t1
+t1=Str.Now()
+TracePrint "当前完整日期|时间：",t1
+
+//加解密字符串
+Dim inText,outText
+inText=Str.Encrypt("zhou164902127按键精灵","123ABC") 
+TracePrint "zhou164902127按键精灵加密后字符：",inText    '调试输出：,?7?<?SnX ?@?#_ C?
+outText=Str.Decrypt(inText,"123ABC")
+TracePrint "加密后字符再解密输出：",outText        '调试输出：zhou164902127按键精灵
+
+//获取字符串表达式的值
+Traceprint "表达式 1+2*(3+4)-(5+3)*2 的值为",Str.getvalue("1+2*(3+4)-(5+3)*2")  '调试输出：-1
+
+//去掉前后指定字符串
+TracePrint  "去掉 abcuiuiuiabc 中前后abc:",Str.strtrim("abcuiuiuiabc","abc") '调试输出：uiui

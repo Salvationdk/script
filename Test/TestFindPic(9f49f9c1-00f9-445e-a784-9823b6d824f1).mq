@@ -1,0 +1,8 @@
+Dim intX, intY
+FindPic 30, 550, 70, 1920, "Attachment:un1.png","000000",0, 0.9, intX, intY
+If intX > -1 Then 
+    Tap intX, intY
+    TracePrint "1 找到啦，坐标是"&intX&","&intY
+Else
+    TracePrint "1 没找到"
+End If

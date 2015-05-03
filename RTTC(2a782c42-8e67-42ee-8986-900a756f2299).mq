@@ -1,0 +1,95 @@
+Do
+    //输入密码    
+    If CmpColorEx("176|1004|8C9294,177|661|848A94,176|381|94969C,345|203|737573,674|203|4A454A,901|384|7B797B,901|686|7B797B,901|1506|7B797B,670|1507|5A555A,215|1507|848684,606|478|313131,784|515|DECEDE,796|815|DECEDE,496|847|DECEDE,368|1012|D6CAD6,427|1142|EFEFEF,680|1141|DECEDE,801|976|DECADE",1.0)=1 Then         
+        pwd(731, 772)
+        pwd(761, 800)
+        pwd(788, 828)
+        pwd(816, 854)
+        Tap 734, 1163
+        Delay 200
+        //选择player
+    ElseIf CmpColorEx("70|57|000000,1004|48|000000,151|27|FFEFFF,289|28|FFEFFF,421|28|FFEFFF,556|31|FFF3FF,729|27|FFEFFF,856|27|FFF3FF,894|28|FFEFFF,913|100|FFEFFF",0.9)=1 Then 
+        Tap 200, 1800
+        Tap 350, 1800
+        Tap 500, 1800
+        Tap 650, 1800
+        Tap 760, 1800    
+        //进入
+    ElseIf CmpColorEx("72|59|EFEFEF,332|15|EFEFEF,330|93|EEEEEE,748|92|E7EBE7,748|15|EFEFEF,1005|52|EFEFEF,565|92|EEEFEE,593|15|EFEFEF,436|14|EFEBEF,365|93|EFEFEF",0.9)=1 Then 
+        Tap 931, 1348
+        //选择奖励                
+    ElseIf CmpColorEx("67|55|000000,1004|56|000000,383|58|21AAEF,335|21|EFEFEF,333|93|EFEFEF,350|28|EFEBEF,740|20|E6EBE6,745|89|EFEFEF,689|16|EFEFEF,465|17|EFEFEF",0.9)=1 Then 
+        touchMatrix      
+        //点击proceed
+    ElseIf CmpColorEx("67|55|000000,1004|56|E6EBE6,383|58|21AAEF,335|21|EFEFEF,333|93|EFEFEF,350|28|EFEBEF,740|20|E6EBE6,745|89|EFEFEF,689|16|EFEFEF,465|17|EFEFEF",0.9)=1  Then 
+        Tap 550, 1800          
+        //出现对话框 点击ok
+    ElseIf CmpColorEx("56|823|FFFFFF,57|534|FFFFFF,339|1064|FFFFFF,846|1065|FFFFFF,1026|840|FFFFFF,1029|551|FFFFFF,924|421|FFFFFF,741|421|FFFFFF,397|422|FFFFFF,364|1065|FFFFFF",1.0)=1 Then 
+        Tap 616, 1197
+        //冠军之路 提醒
+    ElseIf CmpColorEx("514|1630|FFEFFF,532|1631|FFF3FF,512|1661|FFF3FF,531|1661|FFEFFF,545|1629|FEEEFE,545|1662|FFEFFF,563|1629|FFEFFF,564|1662|FFEFFF,552|1646|FFEFFF,539|1723|FFFFFF",0.9)=1 Then  
+        Tap 537, 1648      
+    End If
+    Tap 550, 20
+    Delay 150
+Loop
+    
+Function touchMatrix()
+    Tap 125, 330
+    Tap 335, 330
+    Tap 555, 330
+    Tap 755, 330
+    Tap 955, 330
+
+    Tap 125, 585
+    Tap 335, 585
+    Tap 555, 585
+    Tap 755, 585
+    Tap 955, 585
+    
+    Tap 125, 833
+    Tap 335, 833
+    Tap 555, 833
+    Tap 755, 833
+    Tap 955, 833
+
+    Tap 125, 1086
+    Tap 335, 1086
+    Tap 555, 1086
+    Tap 755, 1086
+    Tap 955, 1086
+
+    Tap 125, 1270
+    Tap 335, 1270
+    Tap 555, 1270
+    Tap 755, 1270
+    Tap 955, 1270
+End Function
+
+
+
+Function pwd(x1, x2)
+    Dim intX, intY    
+    If FindPic(x1, 1383, x2, 1435, "Attachment:00.png", "000000" ,0, 0.9, intX, intY) > -1 then 
+        Tap 539, 1158
+    ElseIf FindPic(x1, 1383, x2, 1435, "Attachment:44.png", "000000", 0, 0.9, intX, intY) > -1 Then
+        Tap 319, 830
+    ElseIf FindPic(x1, 1383, x2, 1435, "Attachment:11.png", "000000", 0, 0.9, intX, intY) > -1 Then
+        Tap 322, 996
+    ElseIf FindPic(x1, 1383, x2, 1435, "Attachment:22.png", "000000", 0, 0.9, intX, intY) > -1 Then
+        Tap 539, 994
+    ElseIf FindPic(x1, 1383, x2, 1435, "Attachment:88.png", "000000", 0, 0.9, intX, intY) > -1 Then
+        Tap 540, 670
+    ElseIf FindPic(x1, 1383, x2, 1435, "Attachment:99.png", "000000", 0, 0.9, intX, intY) > -1 Then
+        Tap 761, 669
+    ElseIf FindPic(x1, 1383, x2, 1435, "Attachment:33.png", "000000", 0, 0.9, intX, intY) > -1 Then
+        Tap 758, 990
+    ElseIf FindPic(x1, 1383, x2, 1435, "Attachment:66.png", "000000", 0, 0.9, intX, intY) > -1 Then
+        Tap 756, 827
+    ElseIf FindPic(x1, 1383, x2, 1435, "Attachment:55.png", "000000", 0, 0.9, intX, intY) > -1 Then
+        Tap 539, 830
+    ElseIf FindPic(x1, 1383, x2, 1435, "Attachment:77.png", "000000", 0, 0.9, intX, intY) > -1 Then
+        Tap 318, 670
+    End If
+    Delay 500
+End Function

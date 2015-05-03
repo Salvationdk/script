@@ -1,0 +1,16 @@
+{
+   "BestResolution" : {
+      "X" : 0,
+      "Y" : 0
+   },
+   "ChangeFileList" : 0,
+   "Description" : "",
+   "FileVersion" : {
+      ".atc" : 1,
+      ".mq" : 1,
+      ".prop" : 1,
+      ".ui" : 1
+   },
+   "Name" : "多线程演示例子",
+   "id" : "fa7bcf35-1eae-4caa-a1ac-bc4ee2c6471d"
+}

@@ -1,0 +1,62 @@
+Delay 300
+Dim rColor, intX, intY
+
+Do
+//    // explore
+//	If CmpColorEx("415|1805|E7E7E7,428|1808|C6BFB9,418|1797|A3A09C,413|1794|EBE9E7,428|1807|C6BFB9,245|1831|FDFDFD",0.9)=1 Then  
+//	    Tap 461, 1812
+//	    
+//	// skip
+//	ElseIf CmpColorEx("1051|1729|D4E8EF,1039|1746|D3E6EE,1034|1751|DFF6FE,1033|1759|DFF6FE,1046|1801|D0E3EA,1014|1799|E0F6FE,1046|1809|D1E5EC,1015|1807|D9EFF6",0.9)=1 then
+//	   Tap 987, 1677
+//       Delay 1000
+//       
+//       
+//	//撤退
+//	ElseIf CmpColorEx("65|1809|F8F8F8,59|1794|FCFCFC,161|1767|E0D0D0,52|1826|FCFCFC,64|1836|F5F5F5",0.9)=1 Or CmpColorEx("51|1796|E8E8E8,56|1810|FDFDFD,55|1831|DFDFDF,61|1841|FBFBFB,55|1841|FEFEFE,42|1833|E1DFDE,46|1802|FDFDFD,56|1841|FCFCFC",0.9)=1 Then 
+//        Tap 107, 1810
+//        Delay 1000
+//              
+    //确定
+    
+    FindColor 1023,1011,1031,1021,"87D1F9",0,0.9,intX,intY
+    If intX>-1 And intY>-1 Then 
+    
+//    If CmpColorEx("59|1808|DDDCDB,59|1793|FDFDFD,68|1828|FCFCFC,49|1828|FDFDFD,67|1808|FDFDFD,58|1807|E6E6E6", 0.9) = 1 Then
+        Tap 107, 1810
+        Delay 10
+            
+	End If
+	Tap 810, 1321 //boss
+    Tap 414, 961 //面包 server
+    Tap 461, 1812
+    Tap 987, 1677
+    Delay 100
+    
+Loop
+
+
+
+
+
+
+
+
+
+Rem a
+If CmpColorEx("65|1809|F8F8F8,59|1794|FCFCFC,161|1767|E0D0D0,52|1826|FCFCFC,64|1836|F5F5F5",0.9)=1 Then 
+    Tap 107, 1810
+    Delay 1000    
+ElseIf CmpColorEx("415|1805|E7E7E7,428|1808|C6BFB9,418|1797|A3A09C,413|1794|EBE9E7,428|1807|C6BFB9,245|1831|FDFDFD",0.9)=1 Then  
+    Tap 461, 1812 // explore
+Else    
+    
+End If
+Delay 50
+rColor = CmpColor(987,1677,"716565",0.9)
+If rColor > -1 Then
+    Tap 987, 1677 // skip
+    Delay 300
+End If
+
+Goto a

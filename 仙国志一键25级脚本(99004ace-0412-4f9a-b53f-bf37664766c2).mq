@@ -1,0 +1,94 @@
+//更多按键精灵安卓版脚本分享 访问 bbs.jdyxb.com
+//本脚本示范了一个完整脚本的框架结构以及文字识别方法，并介绍了几个常用函数
+Delay 2000
+Dim rColor,intX, intY,screenX,screenY
+screenX = GetScreenX()
+screenY = GetScreenY()
+If screenX = 720 and screenY = 1280 then
+Else
+    ShowMessage "仅支持720*1280分辨率手机，脚本停止"
+    EndScript
+End if
+do
+    do
+        KeepCapture
+        If CmpColorEx("223|621|31318C,228|624|080410,239|626|B5D7DE,229|639|B5D7DE,244|640|4A51C5",0.9) = 1 Then'新功能开启确定
+            Tap 233,640
+            Exit do
+        ElseIf CmpColorEx("300|745|212C7B,318|744|4241AD,310|760|B5D3DE,317|756|B5D3DE,312|756|000408",0.9) = 1 Then'学习
+            Tap 315,769
+            Exit do
+        ElseIf CmpColorEx("302|745|292884,324|747|424DC6,314|757|B5CFDE,316|759|080818,314|763|A5BEC6",0.9) = 1 Then'升级
+            Tap 313,768
+            Exit do
+        ElseIf CmpColorEx("292|758|292884,303|762|080810,297|767|A5BECE,307|768|A5BAC6,306|770|000410",0.9) = 1 Then'装备
+            Tap 302,775
+            Exit do
+        ElseIf CmpColorEx("141|223|212B7B,147|230|CECFCE,150|233|000408,156|242|EFEBEF,165|235|424DC6",0.9) = 1 Then'接受
+            Tap 154,244
+            Exit do
+        ElseIf CmpColorEx("296|604|292884,306|611|9CB2BD,299|625|A5BAC6,301|619|101418,308|613|B5D3DE",0.9) = 1 Then'等级不够“是”
+            Tap 306,615
+            Exit do
+        ElseIf CmpColorEx("147|230|BDBEBD,154|230|84868C,152|237|191021,149|244|EFF3EF,156|232|191829",0.9) = 1 Then'找完成按钮
+            Tap 147,230
+            Exit do
+        End if
+        If CmpColor(634,340,"29353A",0.95)=0 then'攻击
+            Tap 48,1011
+            Delay 500
+        End if
+        FindMultiColor 330, 9, 521, 13,"4AA2D6","6|2|101410,13|12|52AEE7,7|15|080C08,13|21|4AA2D6",0,0.9,intX,intY'找黄色支线
+        If intX > -1 Then
+            FindMultiColor intX-25, intY-5, intX-20, intY,"4DAAAD","-7|5|D6D7D6,-7|7|DEDFDE,1|7|EFEBEF,1|9|101010",0,0.8,intX,intY'找杀怪
+            If intX > -1 Then
+                Tap intX,intY
+                Exit do
+            Else
+                FindMultiColor intX-32, intY-3, intX-26, intY+2,"F7F7F7","15|0|101010,7|8|F7F7F7,7|16|080808,7|17|BDBABD",0,0.8,intX,intY'找获取
+                If intX > -1 Then
+                    Tap intX,intY
+                    Exit do
+                End if
+            End if
+        End if
+        FindMultiColor 330, 8, 548, 15,"00BE00","7|0|00BE00,15|0|00FF00,2|2|081010,12|1|084908",0,0.9,intX,intY'找绿色括号
+        If intX > -1 Then
+            Tap intX,intY
+            Exit do
+        End if
+        If ReadUIConfig("伏魔") =true then
+            FindMultiColor 330, 9, 521, 13,"4AA2D6","7|1|183442,1|10|429AC6,3|11|081010,11|16|4AA6DE",0,0.8,intX,intY'找伏魔
+            If intX > -1 Then
+                Tap intX,intY
+                Exit do
+            End if
+        End if
+        FindMultiColor 525, 10, 531, 16,"3986AD","8|0|4AA2D6,15|0|4AAEE7,8|-2|081410,15|3|429AC6",0,0.8,intX,intY'找黄色主线
+        If intX > -1 Then
+            Tap intX,intY
+            Exit do
+        End if
+        If CmpColorEx("533|41|FFFFFF,540|39|946121,536|57|FFFFFF,541|51|945D21",0.8) = 1 Then'头像手指引导
+            Tap 659,57
+            Delay 100
+            Tap 659,57
+            Delay 100
+        ElseIf CmpColorEx("610|1130|5A82D6,624|1128|181CB5,624|1139|5A96DE,632|1139|181CB5",0.9) = 1 Then'日常任务框
+            ShowMessage "请在右上角辅助-系统设置中关闭新手教学模式"
+            Exit do
+        ElseIf CmpColorEx("455|20|4A59B5,455|30|4A49BD,455|46|4A49BD",0.9) = 1 Then'打开任务栏
+            Tap 453,17
+            Exit do
+        ElseIf CmpColorEx("296|595|292884,302|601|000408,302|606|ADCBD6,307|608|ADCBD6,309|604|080810",0.8) = 1 Then'连接丢失“确定”
+            TracePrint "掉线了"
+            EndScript
+        End if
+    loop
+    ReleaseCapture
+    Delay 200
+loop
+
+
+//脚本作者：转瞬の流星
+//更新日期：2014年08月19日

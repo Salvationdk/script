@@ -1,0 +1,31 @@
+Delay 300
+Dim rColor
+Rem a
+Tap 361, 1677
+Tap 819, 951
+
+Tap 1025, 1671 // skip
+//Tap 414, 961 // server
+Delay 100
+
+rColor = CmpColor(502,1840,"E0D5CF",0.9) // start battle
+If rColor > -1 Then
+Tap 502, 1840
+Delay 300
+End If
+
+rColor = CmpColor(85,1804,"7B6E6A",0.9) // skip battle
+If rColor > -1 Then
+Tap 107, 1810
+Delay 300
+End If
+
+If CmpColorEx("437|605|494949,755|611|AAAAA5,761|1056|B4B4A3,725|1278|4C4444,758|1306|C3C3BB,570|1313|333333,329|1308|434444,321|1213|262828,322|739|767676,321|1195|252727",0.9)=1 Then 
+   TracePrint "11111"
+ Tap 414, 961
+ Delay 500
+End If
+
+
+
+Goto a

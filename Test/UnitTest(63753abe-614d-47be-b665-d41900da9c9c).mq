@@ -1,0 +1,22 @@
+Dim intX, intY
+        
+Do Until CmpColorEx("56|1707|213942,21|1707|193542,995|1707|3A6D84,1058|1707|3A6D8C,25|1723|193142,96|1723|21394A,1024|1723|3A698C,1052|1723|3A698C",0.9)=1                  
+    Dim start = 750
+    TouchDown 25,1700, 1
+    TouchMove 25, 10, 1,1000
+    Delay 200
+    TouchUp 1   
+    Do Until start >= 1918 Or FindPic(29, start, 70, 1918, "Attachment:ra.png|Attachment:un.png|Attachment:co.png","000000",0, 0.8, intX, intY) = -1
+        Delay 100
+        Dim check = intY + 157
+        If check >= 1920 Or CmpColor(173, check,"000000",1.0) = -1
+            Tap intX, intY
+        End if
+        start = intY + 250
+        Delay 100
+    Loop          
+    Delay 200
+Loop
+
+
+TracePrint "1 √ª’“µΩ"

@@ -1,0 +1,17 @@
+{
+   "BestResolution" : {
+      "X" : 0,
+      "Y" : 0
+   },
+   "ChangeFileList" : 11011,
+   "Description" : "",
+   "FileVersion" : {
+      ".atc" : 1,
+      ".mq" : 2,
+      ".prop" : 2,
+      ".rtd" : 2,
+      ".ui" : 2
+   },
+   "Name" : "NBA2K",
+   "id" : "1c711e60-e5c3-408d-b08a-cdd52cb0449b"
+}

@@ -1,0 +1,16 @@
+{
+   "BestResolution" : {
+      "X" : 0,
+      "Y" : 0
+   },
+   "ChangeFileList" : 0,
+   "Description" : "",
+   "FileVersion" : {
+      ".atc" : 1,
+      ".mq" : 1,
+      ".prop" : 1,
+      ".ui" : 1
+   },
+   "Name" : "字符串lua插件的调用例子",
+   "id" : "29aafa36-6633-46b3-b045-940792e21f9e"
+}

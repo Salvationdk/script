@@ -1,0 +1,123 @@
+/**************************
+脚本作者：丿晓
+更新日期：2014.8.20
+手机分辨率：720*1280
+游戏名：大家来找荐
+游戏下载地址：http://shouji.baidu.com/game/item?docid=2033763&qq-pf-to=pcqq.c2c
+***************************/
+/****************************
+  程序主要运作流程：
+  主程序功能：判断是否在找茬画面，在则开启线程，不在则线束线程
+  线程功能：循环找茬
+****************************/
+//在找茬画面启动脚本
+SetControlBarPos 1,1 
+Delay 5000   //防“脚本开始运行”字样还没消失时截图
+Dim 线程id,intX,intY,iz
+iz=0
+Thread.SetShareVar "线程状态", True  //true为线程正在运行，false为线程不在运行
+线程id=Thread.Start(找茬线程,83,10,538,466,83,493,538,949)//前四个数字参数，为第一张图坐标，后四个为第二张图坐标：启动线程
+Do
+    FindMultiColor 3,23,80,112,"28F0DD","35|-3|A9D59D,14|14|28C477",0,0.9,intX,intY //判断是否在找茬画面
+    If intX>-1 And intY>-1 Then 
+        iz=0
+        If Thread.GetShareVar("线程状态")=false then  //判断线程是否在运行
+            线程id=Thread.Start(找茬线程,83,10,538,466,83,493,538,949)//前四个数字参数，为第一张图坐标，后四个为第二张图坐标
+            Delay 1000
+        End If 
+    Else
+        iz=iz+1
+        If iz>4 then //5次没找到找茬画面，判断为不在游戏，关闭找茬线程
+            iz=0
+            Thread.Stop(线程id)  //线束找茬操作
+            ShowMessage "不在找茬画面"
+            Thread.SetShareVar "线程状态", false  //线程状态切为不在运行
+            Delay 1000
+        End If
+    End If
+    Delay 200
+Loop
+sub 找茬线程(x1,y1,x2,y2,x3,y3,x4,y4) 
+/****************************
+   找茬线程主要流程：
+   1：找茬前，存储斜线六个点                      
+   2：比对二张图相同坐标的颜色                          
+   3：找茬后，重新取原存储斜线位置六个点
+   4：比对找茬前面这六个点，有四个点相同，判断为找茬失败，更改找茬点的位置     
+*****************************/
+    Dim 区域类型,找到区域数,arr(),arr1(),arri=0,随机点控制,坐标偏移点,rColor1,rColor2
+    随机点控制=False
+    Thread.SetShareVar "线程状态", True  
+    Do
+        找到区域数=0
+        区域类型=0
+        arri=0
+        If 随机点控制=True then
+            随机点控制=False
+            坐标偏移点 = Int(((40-5+1)* Rnd()) + 5)   //随机5到40
+        Else
+            坐标偏移点=20  
+        End If
+        KeepCapture
+        For i=0 to 5
+            arr(i)= GetPixelColor(x1+i, y1+i) //找茬前，存储斜线六个点，用来判断是否找茬成功
+        Next
+        For j=0 to Int((y2-y1)/10-1)   //比对二张图颜色
+            For i=0 to Int((x2-x1)/10-1)
+                rColor1 = GetPixelColor(x1+坐标偏移点+i*10, y1+j*10+坐标偏移点)//i*10,取点间隔太小，比对数多速度慢，间隔太大会遗漏掉颜色不同区域
+                rColor2 = GetPixelColor(x3+坐标偏移点+i*10, y3+j*10+坐标偏移点)
+                If rColor1<>rColor2 then
+                    区域类型= 判断颜色是否在重复区域(x1+坐标偏移点+i*10, y1+j*10+坐标偏移点)//判断颜色是否在重复区域
+                    If 区域类型=-1 then
+                        Tap x1+25+i*10, y1+j*10+25 //找出新的不同区域点击
+                        Delay 500
+                        找到区域数=找到区域数+1
+                        If 找到区域数=3 Then //本游戏只有，三块不同区域，找到三块不同区域后，更改区域类型=2
+                            区域类型=2
+                            Exit For
+                        End If
+                    End If
+                End If
+            Next
+            If 区域类型=2 then //区域类型=2,这边代表前面以找出了三块不同区
+                Exit For
+            End If
+        Next
+        KeepCapture
+        For i=0 to 5
+            arr1(i)= GetPixelColor(x1+i, y1+i)//找茬后，重新取原存储斜线位置六个点
+        Next
+        For i=0 to 5
+            If arr(i)=arr1(i) then
+                arri=arri+1  //判断找茬前后，这六个点是否有变化
+            End If
+        Next
+        If arri>3 then 
+            随机点控制=True//找茬前后记录的门个点有四个点相同，判断为找茬失败，更改找茬点的位置
+        End If
+        Delay 500
+    Loop
+End Sub
+Function 判断颜色是否在重复区域(x,y)//判断所选的点的上下左右四个方向，是否有选中区域的边框颜色
+    KeepCapture
+    Dim intX,intY,aa
+    aa=-1
+    FindColor x,y,x+150,y,"00FF00-000000",0,1.0,intX,intY
+    If intX>0 then
+        FindColor x-150,y,x,y,"00FF00-000000",0,1.0,intX,intY
+        If intX>0 then
+            FindColor x,y,x,y+150,"00FF00-000000",0,1.0,intX,intY
+            If intX>0 then
+                FindColor x,y-150,x,y,"00FF00-000000",0,1.0,intX,intY
+                If intX>0 then
+                    aa=1
+                End If
+            End If
+        End If
+    End If
+    判断颜色是否在重复区域=aa
+End Function
+/*****************************
+免责声明：
+完全出于个人兴趣爱好，由本人在业余时间开发，仅供学习交流,请误用于商业用途！
+****************************/
